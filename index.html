@@ -27,33 +27,55 @@
             --bg-dark: #1a202c;        /* Fundo escuro principal */
             --bg-darker: #2d3748;      /* Fundo escuro secundário */
             --text-dark: #f7fafc;      /* Texto para modo escuro */
-            --gradient: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); /* Gradiente avermelhado */
+            --gradient: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); /* Gradiente avermelhado padrão */
             --shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.15); /* Sombra mais sutil e profissional */
             --border-radius: 12px;     /* Borda ligeiramente menor */
             --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.25);
+            --border-radius-lg: 15px; /* Valor maior para bordas arredondadas */
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Mantenha sua sombra padrão */
+            /* ... outras variáveis ... */
 
             /* Cores para o modal */
             --modal-bg-light: rgba(255, 255, 255, 0.95);
             --modal-bg-dark: rgba(26, 32, 44, 0.95);
             --modal-border-light: rgba(0, 0, 0, 0.1);
             --modal-border-dark: rgba(255, 255, 255, 0.1);
+
+            /* NOVO: Variáveis para os gradientes de fundo do Dark Mode */
+            --gradient-hero-dark: linear-gradient(135deg, #4A0000 0%, #800020 50%, #600000 100%);
+            --gradient-sections-dark: linear-gradient(135deg, #4A0000 0%, #800020 50%, #600000 100%);
         }
 
-        /* Dark Mode Specific Variables */
+        /* Dark Mode Specific Variables - ESTE BLOCO É CRUCIAL */
         body.dark-mode {
             --text-primary: var(--text-dark);
             --text-secondary: #a0aec0;
-            --bg-primary: var(--bg-dark);
+            --bg-primary: var(--bg-dark); /* Será sobreposto pelos fundos animados onde houver `background-animated` */
             --bg-secondary: var(--bg-darker);
-            --gradient: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); /* Gradiente escuro para o hero */
+            --gradient: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); /* Gradiente escuro para elementos que usam --gradient */
             --shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.4);
             --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.4);
             --modal-bg: var(--modal-bg-dark);
             --modal-border: var(--modal-border-dark);
+
+            /* MODIFICADO: Ajuste para as cores dos cards no Dark Mode */
+            /* Essas cores serão usadas pelos project-card e about-personal-section */
+            --card-bg-light-mode: var(--bg-primary); /* Valor do Light Mode */
+            --card-bg-dark-mode: rgba(45, 55, 72, 0.4); /* Fundo mais opaco para cards no dark mode */
+            --card-border-light-mode: rgba(0,0,0,0.08);
+            --card-border-dark-mode: rgba(255,255,255,0.12);
+            --card-shadow-light-mode: 0 5px 15px rgba(0,0,0,0.08);
+            --card-shadow-dark-mode: 0 5px 15px rgba(0,0,0,0.3);
         }
         body:not(.dark-mode) {
             --modal-bg: var(--modal-bg-light);
             --modal-border: var(--modal-border-light);
+
+            /* NOVO: Variáveis para os cards no Light Mode */
+            --card-bg-light-mode: var(--bg-primary);
+            --card-border-light-mode: rgba(0,0,0,0.08);
+            --card-shadow-light-mode: 0 5px 15px rgba(0,0,0,0.08);
         }
 
 
@@ -62,10 +84,13 @@
             font-family: 'Montserrat', sans-serif; /* Usando a nova fonte */
             line-height: 1.6;
             color: var(--text-primary);
-            background: var(--bg-primary);
+            background: var(--bg-primary); /* Fundo normal no Light Mode */
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
+
+        /* EXCLUSIVO DARK MODE: Fundo para o corpo quando não houver fundo animado */
+
 
         .container {
             max-width: 1200px;
@@ -197,25 +222,16 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: var(--gradient); /* Usa a variável de gradiente */
+            background: var(--gradient); /* Usa a variável de gradiente no Light Mode */
             position: relative;
             overflow: hidden;
             margin-top: -80px;
             padding-top: 80px;
         }
+
+        /* NOVO/MODIFICADO: Remover o ::before do hero para usar o background-animated */
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff10" points="0,1000 1000,0 1000,1000"/></svg>');
-            opacity: 0.1; /* Sutil padrão */
-        }
-        body.dark-mode .hero::before {
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%2300000020" points="0,1000 1000,0 1000,1000"/></svg>');
-            opacity: 0.15;
+            display: none; /* Desativa o ::before existente para o hero, agora o background-animated assume */
         }
 
         .hero-content {
@@ -224,10 +240,14 @@
             gap: 60px; /* Mais espaço */
             align-items: center;
             position: relative;
-            z-index: 2;
+            z-index: 2; /* Para garantir que o conteúdo esteja acima do fundo animado */
         }
         .hero-text {
-            color: white;
+            color: white; /* Cor do texto no Light Mode para o Hero */
+        }
+        /* EXCLUSIVO DARK MODE: Hero text color */
+        body.dark-mode .hero-text {
+            color: var(--text-dark); /* Texto claro no Dark Mode */
         }
         .hero h1 {
             font-size: 3.8rem; /* Um pouco maior para impacto */
@@ -272,9 +292,15 @@
         }
         .btn-secondary {
             background: transparent;
-            color: white;
-            border: 2px solid white;
+            color: white; /* Texto branco no Light Mode */
+            border: 2px solid white; /* Borda branca no Light Mode */
         }
+        /* EXCLUSIVO DARK MODE: Botões no Hero */
+        body.dark-mode .btn-secondary {
+            color: var(--text-dark); /* Texto claro no Dark Mode */
+            border-color: var(--text-dark); /* Borda clara no Dark Mode */
+        }
+
         .btn:hover {
             transform: translateY(-3px); /* Mais destaque no hover */
             box-shadow: 0 12px 25px rgba(0,0,0,0.3); /* Sombra mais profunda no hover */
@@ -294,6 +320,11 @@
             margin: 0 auto;
             box-shadow: 0 0 0 10px rgba(255,255,255,0.1); /* Anel branco sutil */
         }
+        /* EXCLUSIVO DARK MODE: Anel da imagem de perfil */
+        body.dark-mode .profile-image {
+            box-shadow: 0 0 0 10px rgba(0,0,0,0.3); /* Anel escuro no Dark Mode */
+        }
+
         .profile-image img {
             width: 100%;
             height: 100%;
@@ -307,6 +338,11 @@
             font-size: 1.2rem;
             border: 3px solid white; /* Borda interna sutil */
         }
+        /* EXCLUSIVO DARK MODE: Borda interna da imagem de perfil */
+        body.dark-mode .profile-image img {
+            border-color: var(--bg-dark); /* Borda escura no Dark Mode */
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-15px); } /* Flutuação mais suave */
@@ -332,15 +368,21 @@
             width: 55px; /* Um pouco maior */
             height: 55px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.15); /* Fundo mais sutil */
+            background: rgba(255,255,255,0.15); /* Fundo mais sutil no Light Mode */
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: white; /* Cor branca no Light Mode */
             text-decoration: none;
             font-size: 1.3rem; /* Ícones maiores */
             transition: all 0.3s ease;
             box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        /* EXCLUSIVO DARK MODE: Social links */
+        body.dark-mode .social-link {
+            background: rgba(0,0,0,0.25); /* Fundo mais escuro no Dark Mode */
+            color: var(--text-dark); /* Cor do texto Dark Mode */
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         }
         .social-link:hover {
             background: white;
@@ -348,27 +390,40 @@
             transform: translateY(-5px) rotate(5deg); /* Animação mais dinâmica */
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
+        /* EXCLUSIVO DARK MODE: Hover dos social links */
+        body.dark-mode .social-link:hover {
+            background: var(--accent-color); /* Hover para a cor de destaque */
+            color: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
 
-        /* Projects Page */
-        .projects-header {
+        /* Projects Page & About Page Headers */
+        .projects-header, .about-content h2 {
             text-align: center;
             padding: 90px 0 60px; /* Mais padding */
-            position: relative; /* Para garantir que o texto esteja acima do fundo animado */
-            z-index: 1;
-        }
-        .projects-title {
-            font-size: 2.8rem; /* Maior e mais impactante */
-            margin-bottom: 25px;
-            color: var(--text-primary);
+            position: relative;
+            z-index: 1; /* Para garantir que o texto esteja acima do fundo animado */
+            color: var(--text-primary); /* No Light Mode */
             background: var(--gradient); /* Logo estilizado */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             display: inline-block; /* Para o gradiente no texto */
+            width: 100%; /* Para centralizar o inline-block */
+        }
+        body.dark-mode .projects-header, body.dark-mode .about-content h2 {
+            /* EXCLUSIVO DARK MODE: Os textos dos cabeçalhos ficam claros (sem gradiente no dark mode) */
+            -webkit-text-fill-color: var(--text-dark);
+            background: none; /* Remove o gradiente para o texto no dark mode */
+            color: var(--text-dark); /* Garante a cor do texto */
+        }
+
+        .projects-title {
+            font-size: 2.8rem; /* Maior e mais impactante */
+            margin-bottom: 25px;
         }
         .projects-grid {
             display: grid;
-            /* ALTERAÇÃO CHAVE AQUI: Aumentamos o minmax para blocos maiores */
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Aumentado para 400px */
             gap: 40px; /* Reduzido ligeiramente o gap para dar mais espaço aos blocos */
             padding: 0 0 100px;
@@ -376,19 +431,20 @@
             z-index: 1;
         }
         .project-card {
-            background: var(--bg-primary);
+            background: var(--card-bg-light-mode); /* Usa a variável para Light Mode */
             border-radius: var(--border-radius);
             overflow: hidden;
             transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.08); /* Borda mais suave */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--card-border-light-mode); /* Borda mais suave */
+            box-shadow: var(--card-shadow-light-mode);
             display: flex;
-            flex-direction: column; /* Para layout flexível interno */
+            flex-direction: column;
         }
+        /* EXCLUSIVO DARK MODE: Cards de projeto */
         body.dark-mode .project-card {
-            background: var(--bg-darker);
-            border-color: rgba(255,255,255,0.12);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: var(--card-bg-dark-mode); /* Fundo translúcido no Dark Mode */
+            border-color: var(--card-border-dark-mode);
+            box-shadow: var(--card-shadow-dark-mode);
         }
         .project-card:hover {
             transform: translateY(-12px); /* Mais elevação */
@@ -477,60 +533,94 @@
             transform: translateY(-3px); /* Mais elevação */
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            /* ... (manter o restante do CSS responsivo inalterado ou ajustar conforme necessário) */
-            .projects-grid {
-                /* Para mobile, se os cards forem muito grandes com 400px, podemos ajustar */
-                grid-template-columns: 1fr; /* Volta para uma coluna */
-                gap: 30px; /* Reduzir gap para mobile */
-            }
-            .project-card {
-                max-width: 95%; /* Permite que o cartão ocupe mais largura no mobile */
-                margin: 0 auto; /* Centraliza */
-            }
-            .project-image-wrapper {
-                height: 200px; /* Altura da imagem ligeiramente reduzida para mobile */
-            }
+        #about.page {
+            padding-top: 80px; /* Manter o padding superior para a navegação */
+            padding-bottom: 80px; /* Adicionar um pouco de padding inferior */
         }
 
-        /* About Page */
-        .about-content {
+        #about.page .container.about-content {
+            /* Ajustes de Largura e Altura */
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Texto ligeiramente maior */
-            gap: 80px; /* Mais espaço */
-            padding: 100px 0; /* Mais padding */
-            position: relative; /* Para garantir que o conteúdo esteja acima do fundo animado */
+            grid-template-columns: 1.5fr 1fr; /* Mais espaço para o texto, menos para a imagem */
+            gap: 40px; /* Reduzi o gap para um visual mais compacto */
+            padding: 50px 40px; /* Reduzi o padding vertical e aumentei o horizontal */
+            max-width: 1300px; /* Aumentar a largura máxima do container */
+            min-height: 550px; /* Definir uma altura mínima para controle, ajuste se necessário */
+            margin: 60px auto;
+
+            /* Novas cores e animação de fundo */
+            background: rgba(0, 0, 0, 0.4); /* Fundo preto transparente no Light Mode */
+            border-radius: var(--border-radius-lg); /* Use um border-radius um pouco maior */
+            box-shadow: var(--shadow-lg); /* Sombra mais suave e elegante */
+            backdrop-filter: blur(10px); /* Efeito de vidro embaçado para transparência */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+            position: relative;
             z-index: 1;
+
+            /* Animação de fundo animada e sutil */
+            background-size: 200% 200%; /* Para a animação do gradiente */
+            animation: gradientAnimation 15s ease infinite; /* Animação de gradiente sutil */
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
         }
-        .about-text h2 {
-            font-size: 2.8rem;
-            margin-bottom: 40px;
+
+
+        /* Animação para o fundo do container */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Cores de fundo animadas para o container - Light Mode */
+        #about.page .container.about-content {
+            background-image: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(20,20,20,0.4) 50%, rgba(0,0,0,0.4) 100%);
+        }
+
+        /* Cores de fundo animadas para o container - Dark Mode */
+        body.dark-mode #about.page .container.about-content {
+            background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(30,30,30,0.7) 50%, rgba(0,0,0,0.7) 100%);
+        }
+
+
+        #about.page .about-text {
+            padding: 0; /* Removendo padding interno, já tem no container */
+        }
+
+        #about.page .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
             color: var(--text-primary);
-            background: var(--gradient); /* Logo estilizado */
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             display: inline-block;
+            font-weight: 700; /* Mais destaque */
         }
-        .about-text h3 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            font-weight: 600; /* Mais destaque */
-        }
-        .about-text p {
-            color: var(--text-secondary);
-            margin-bottom: 25px; /* Mais espaço */
-            line-height: 1.8; /* Melhor legibilidade */
+        body.dark-mode #about.page .about-text h2 {
+            -webkit-text-fill-color: var(--text-dark);
+            background: none;
+            color: var(--text-dark); /* Volta a cor normal no dark mode para o h2 */
         }
 
-        /* About Page - Personal Section (Novo) */
-        .about-personal-section {
-            background: var(--bg-primary); /* Usa o bg-primary para o card */
+        #about.page .about-text h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.25rem; /* Levemente maior */
+            font-weight: 600;
+        }
+
+        #about.page .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        #about.page .about-personal-section {
+            background: var(--bg-primary); /* Fundo claro para o card pessoal */
             border-radius: var(--border-radius);
-            padding: 40px;
+            padding: 30px;
             box-shadow: var(--shadow);
             text-align: center;
             display: flex;
@@ -540,35 +630,109 @@
             border: 1px solid rgba(0,0,0,0.08);
             transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
-
-        body.dark-mode .about-personal-section {
-            background: var(--bg-darker);
+        body.dark-mode #about.page .about-personal-section {
+            background: var(--bg-darker); /* Fundo escuro para o card pessoal no Dark Mode */
             border-color: rgba(255,255,255,0.12);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .about-personal-section .profile-image {
-            width: 200px; /* Tamanho reduzido para a seção About */
-            height: 200px;
-            margin-bottom: 30px;
-            animation: none; /* Remove a flutuação aqui */
-            box-shadow: 0 0 0 7px rgba(255,255,255,0.1); /* Anel branco sutil */
+        #about.page .about-personal-section .profile-image {
+            width: 120px; /* IMAGEM MENOR: Ajustado para um tamanho mais contido */
+            height: 120px; /* IMAGEM MENOR: Mantendo proporção */
+            margin-bottom: 20px;
+            animation: none; /* Remover qualquer animação padrão se houver */
+            box-shadow: 0 0 0 5px rgba(255,255,255,0.1), 0 0 15px rgba(0,0,0,0.2); /* Borda mais fina e sombra */
+            border-radius: 50%;
+            object-fit: cover;
         }
-        body.dark-mode .about-personal-section .profile-image {
-            box-shadow: 0 0 0 7px rgba(0,0,0,0.1);
+        body.dark-mode #about.page .about-personal-section .profile-image {
+            box-shadow: 0 0 0 5px rgba(0,0,0,0.1), 0 0 15px rgba(255,255,255,0.1); /* Sombra para dark mode */
         }
 
-
-        .about-personal-section h3 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+        #about.page .about-personal-section h3 {
+            font-size: 1.4rem; /* Levemente menor para caber melhor */
+            margin-bottom: 8px;
             color: var(--primary-color);
         }
-        .about-personal-section p {
-            font-size: 1.1rem;
+
+        #about.page .about-personal-section p {
+            font-size: 0.95rem; /* Levemente menor */
             color: var(--text-secondary);
+            line-height: 1.6;
         }
 
+        #about.page .timeline {
+            position: relative;
+            padding-left: 25px;
+            margin-top: 30px;
+        }
+
+        #about.page .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        #about.page .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 40px;
+        }
+
+        #about.page .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 2px solid var(--bg-secondary);
+            z-index: 1;
+        }
+        body.dark-mode #about.page .timeline-item::before {
+            border-color: var(--bg-darker);
+        }
+
+        #about.page .timeline-year {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        #about.page .timeline-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        #about.page .timeline-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 5px;
+        }
+
+        /* --- MEDIA QUERY PARA LAYOUT DE UMA COLUNA EM TELAS MENORES (ABOUT PAGE) --- */
+        @media (max-width: 900px) {
+            #about.page .container.about-content {
+                grid-template-columns: 1fr; /* Uma coluna em telas menores */
+                padding: 40px;
+                margin: 30px auto;
+                min-height: auto; /* Remover altura mínima em mobile */
+            }
+
+            #about.page .about-personal-section {
+                margin-top: 30px; /* Adicionar margem para separar do texto */
+            }
+        }
 
         .timeline {
             position: relative;
@@ -602,8 +766,9 @@
             border: 3px solid var(--bg-secondary); /* Borda para contraste */
             z-index: 1;
         }
+        /* EXCLUSIVO DARK MODE: Linha do tempo */
         body.dark-mode .timeline-item::before {
-            border-color: var(--bg-dark);
+            border-color: var(--bg-dark); /* Cor da borda para Dark Mode */
         }
         .timeline-year {
             color: var(--accent-color); /* Cor de destaque para o ano */
@@ -788,6 +953,11 @@
             z-index: 10000;
             transition: opacity 0.5s ease;
         }
+        /* EXCLUSIVO DARK MODE: Fundo do loading */
+        body.dark-mode .loading {
+            background: var(--gradient-hero-dark); /* Fundo escuro animado para o loading no Dark Mode */
+        }
+
         .loading.fade-out {
             opacity: 0;
             pointer-events: none;
@@ -803,6 +973,159 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* NOVO: Styles for Animated Background (Only in Dark Mode) */
+        /* Container para o fundo animado (o mesmo do seu exemplo da imagem) */
+        .background-animated {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0; /* Abaixo do conteúdo principal */
+            /* background: transparent; <- Será o default no Light Mode, não precisa definir aqui */
+        }
+
+        /* EXCLUSIVO DARK MODE: Fundo e animações ativas no Dark Mode */
+        body.dark-mode .background-animated {
+            background: var(--gradient-hero-dark); /* Fundo avermelhado escuro animado */
+            /* Certifique-se de que isso esteja nas seções certas (hero, projects, about) */
+        }
+
+        /* Onda de fundo - SÓ ATIVA NO DARK MODE */
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 170%; /* Mais largo para cobrir */
+            height: 250px; /* Altura maior */
+            background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.05) 0%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(0, 0, 0, 0.05) 100%);
+            border-radius: 40% 60% 50% 50% / 100% 0% 100% 0%;
+            transform-origin: bottom center;
+            animation: wave-motion 15s linear infinite; /* Velocidade da onda */
+            opacity: 0; /* Invisível por padrão */
+            transition: opacity 0.5s ease;
+        }
+        body.dark-mode .wave {
+            opacity: 1; /* Visível APENAS no Dark Mode */
+        }
+        .wave:nth-child(2) {
+            animation-duration: 20s;
+            animation-delay: -5s;
+            opacity: 0; /* Invisível por padrão */
+        }
+        body.dark-mode .wave:nth-child(2) {
+            opacity: 0.8; /* Visível APENAS no Dark Mode */
+        }
+        .wave:nth-child(3) {
+            animation-duration: 10s;
+            animation-delay: -2s;
+            opacity: 0; /* Invisível por padrão */
+        }
+        body.dark-mode .wave:nth-child(3) {
+            opacity: 0.6; /* Visível APENAS no Dark Mode */
+        }
+
+        @keyframes wave-motion {
+            0% { transform: translateX(-20%) rotate(0deg); }
+            50% { transform: translateX(20%) rotate(5deg); }
+            100% { transform: translateX(-20%) rotate(0deg); }
+        }
+
+        /* Partículas flutuantes - SÓ ATIVA NO DARK MODE */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15); /* Cor das partículas */
+            border-radius: 50%;
+            animation: float-particle 15s infinite ease-in-out;
+            opacity: 0; /* Invisível por padrão */
+            transition: opacity 0.5s ease;
+        }
+        body.dark-mode .particle {
+            opacity: 1; /* Visível APENAS no Dark Mode */
+        }
+
+        @keyframes float-particle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.8; }
+            25% { transform: translateY(-20px) translateX(10px); opacity: 0.5; }
+            50% { transform: translateY(-40px) translateX(-20px); opacity: 0.8; }
+            75% { transform: translateY(-20px) translateX(10px); opacity: 0.5; }
+        }
+
+        /* Efeito de brilho / flare - SÓ ATIVA NO DARK MODE */
+        .shine {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: shine-pulse 8s infinite ease-in-out;
+            opacity: 0; /* Invisível por padrão */
+            transition: opacity 0.5s ease;
+        }
+        body.dark-mode .shine {
+            opacity: 1; /* Visível APENAS no Dark Mode */
+        }
+
+        @keyframes shine-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.5); opacity: 0.9; }
+        }
+
+        /* Padrão geométrico sutil - SÓ ATIVA NO DARK MODE */
+        .geometric-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                    linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%),
+                    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%);
+            background-size: 60px 60px; /* Tamanho do padrão */
+            background-position: 0 0, 30px 0, 30px -30px, 0 30px;
+            animation: pattern-pan 60s linear infinite; /* Animação de movimento lento */
+            opacity: 0; /* Invisível por padrão */
+            transition: opacity 0.5s ease;
+        }
+        body.dark-mode .geometric-pattern {
+            opacity: 1; /* Visível APENAS no Dark Mode */
+        }
+
+        @keyframes pattern-pan {
+            0% { background-position: 0 0, 30px 0, 30px -30px, 0 30px; }
+            100% { background-position: 60px 60px, 90px 60px, 90px 30px, 60px 90px; }
+        }
+
+        /* Overlay de profundidade - SÓ ATIVA NO DARK MODE */
+        .depth-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.2) 80%);
+            opacity: 0; /* Invisível por padrão */
+            transition: opacity 0.5s ease;
+        }
+        body.dark-mode .depth-overlay {
+            opacity: 1; /* Visível APENAS no Dark Mode */
+        }
+
+        /* NOVO: Media Query para as animações - Reduzir ou desativar em mobile */
+        @media (max-width: 768px) {
+            .wave, .particle, .shine, .geometric-pattern, .depth-overlay {
+                opacity: 0 !important; /* Força invisibilidade em telas menores */
+                display: none !important; /* Garante que não ocupem espaço */
+            }
         }
     </style>
 </head>
@@ -828,6 +1151,18 @@
 
 <div id="home" class="page active">
     <section class="hero">
+        <div class="background-animated" id="hero-background">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+
+            <div class="shine"></div>
+
+            <div class="geometric-pattern"></div>
+
+            <div class="depth-overlay"></div>
+        </div>
+
         <div class="container hero-content">
             <div class="hero-text">
                 <h1>Olá, eu sou Quirson Fernando Ngale</h1>
@@ -865,127 +1200,143 @@
 </div>
 
 <div id="projects" class="page projects-page">
-    <div class="animated-bg"></div> <div class="container">
-    <div class="projects-header">
-        <h1 class="projects-title">Projetos Em Destaque</h1>
+    <div class="background-animated" id="projects-background">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="shine"></div>
+        <div class="geometric-pattern"></div>
+        <div class="depth-overlay"></div>
     </div>
-    <div class="projects-grid">
-        <div class="project-card">
-            <div class="project-image-wrapper">
-                <img src="https://i.imgur.com/HpYmtW8.jpeg" alt="BeForwardApp Project">
-            </div>
-            <div class="project-content">
-                <h3>BeForwardApp</h3>
-                <p>Uma aplicação Java completa para gestão automotiva com rastreamento avançado de carros, gestão de inventário e análise de dados.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Java</span>
-                    <span class="tech-tag">Spring Boot</span>
-                    <span class="tech-tag">MySQL</span>
-                    <span class="tech-tag">REST API</span>
-                </div>
-                <div class="project-actions">
-                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
-                    <button class="btn-small btn-demo" data-message="O projeto Live Demo ainda está em desenvolvimento."><i class="fas fa-external-link-alt"></i> Live Demo</button>
-                </div>
-            </div>
+    <div class="container">
+        <div class="projects-header">
+            <h1 class="projects-title">Projetos Em Destaque</h1>
         </div>
-        <div class="project-card">
-            <div class="project-image-wrapper">
-                <img src="https://i.imgur.com/Z8Nz36C.jpeg" alt="Escola_Secundaria Project">
-            </div>
-            <div class="project-content">
-                <h3>Escola_Secundaria</h3>
-                <p>Sistema de gestão educacional para escolas secundárias, otimizando matrículas de alunos, acompanhamento de notas e ferramentas administrativas.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Java</span>
-                    <span class="tech-tag">JavaFX</span>
-                    <span class="tech-tag">SQLite</span>
-                    <span class="tech-tag">MVC</span>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image-wrapper">
+                    <img src="https://i.imgur.com/HpYmtW8.jpeg" alt="BeForwardApp Project">
                 </div>
-                <div class="project-actions">
-                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
-                    <button class="btn-small btn-demo" data-message="O projeto Live Demo ainda está em desenvolvimento."><i class="fas fa-external-link-alt"></i> Live Demo</button>
-                </div>
-            </div>
-        </div>
-        <div class="project-card">
-            <div class="project-image-wrapper">
-                <img src="https://i.imgur.com/CVtT2Uz.jpeg" alt="Launcher Project">
-            </div>
-            <div class="project-content">
-                <h3>Launcher</h3>
-                <p>Lançador de aplicativos customizado com UI moderna, recursos de acesso rápido e ferramentas de otimização do sistema para maior produtividade.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Java</span>
-                    <span class="tech-tag">Swing</span>
-                    <span class="tech-tag">System Integration</span>
-                </div>
-                <div class="project-actions">
-                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
-                    <button class="btn-small btn-demo" data-message="Download Não Disponível No Momento, tente Novamente."><i class="fas fa-download"></i> Download</button>
+                <div class="project-content">
+                    <h3>BeForwardApp</h3>
+                    <p>Uma aplicação Java completa para gestão automotiva com rastreamento avançado de carros, gestão de inventário e análise de dados.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">REST API</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                        <button class="btn-small btn-demo" data-message="O projeto Live Demo ainda está em desenvolvimento."><i class="fas fa-external-link-alt"></i> Live Demo</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="project-card">
-            <div class="project-image-wrapper">
-                <img src="https://i.imgur.com/bMY82AE.jpeg" alt="Discord Bot Project">
-            </div>
-            <div class="project-content">
-                <h3>Discord Bot</h3>
-                <p>Bots Discord multifuncionais desenvolvidos para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Node.js</span>
-                    <span class="tech-tag">Discord.js</span>
-                    <span class="tech-tag">APIs</span>
-                    <span class="tech-tag">Deployment</span>
+            <div class="project-card">
+                <div class="project-image-wrapper">
+                    <img src="https://i.imgur.com/Z8Nz36C.jpeg" alt="Escola_Secundaria Project">
                 </div>
-                <div class="project-actions">
-                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
-                    <button class="btn-small btn-demo" data-message="O Bot não está disponível para ser adicionado no momento."><i class="fab fa-discord"></i> Adicionar Bot</button>
+                <div class="project-content">
+                    <h3>Escola_Secundaria</h3>
+                    <p>Sistema de gestão educacional para escolas secundárias, otimizando matrículas de alunos, acompanhamento de notas e ferramentas administrativas.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">JavaFX</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">MVC</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                        <button class="btn-small btn-demo" data-message="O projeto Live Demo ainda está em desenvolvimento."><i class="fas fa-external-link-alt"></i> Live Demo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image-wrapper">
+                    <img src="https://i.imgur.com/CVtT2Uz.jpeg" alt="Launcher Project">
+                </div>
+                <div class="project-content">
+                    <h3>Launcher</h3>
+                    <p>Lançador de aplicativos customizado com UI moderna, recursos de acesso rápido e ferramentas de otimização do sistema para maior produtividade.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Swing</span>
+                        <span class="tech-tag">System Integration</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                        <button class="btn-small btn-demo" data-message="Download Não Disponível No Momento, tente Novamente."><i class="fas fa-download"></i> Download</button>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image-wrapper">
+                    <img src="https://i.imgur.com/bMY82AE.jpeg" alt="Discord Bot Project">
+                </div>
+                <div class="project-content">
+                    <h3>Discord Bot</h3>
+                    <p>Bots Discord multifuncionais desenvolvidos para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Discord.js</span>
+                        <span class="tech-tag">APIs</span>
+                        <span class="tech-tag">Deployment</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                        <button class="btn-small btn-demo" data-message="O Bot não está disponível para ser adicionado no momento."><i class="fab fa-discord"></i> Adicionar Bot</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <div id="about" class="page about-page">
-    <div class="animated-bg"></div> <div class="container about-content">
-    <div class="about-text">
-        <h2>Sobre Mim</h2>
-        <h3>Minha Jornada Profissional e Acadêmica</h3>
-        <p>Desde muito jovem, fui cativado pelo mundo da tecnologia e, em particular, pela programação. Minha jornada começou com uma curiosidade insaciável sobre como os softwares funcionam, o que rapidamente se transformou em paixão por construir e inovar.</p>
-        <p>Atualmente, sou estudante de Ciência da Computação no ISCTEM, onde estou aprofundando meus conhecimentos em algoritmos, estruturas de dados e desenvolvimento de sistemas. Sou um desenvolvedor Full Stack, o que significa que tenho experiência tanto no front-end (a parte visual e interativa que você vê) quanto no back-end (a lógica e a base de dados que fazem tudo funcionar).</p>
-        <p>Minha especialidade reside no desenvolvimento Java, onde crio aplicações robustas e eficientes. Além disso, tenho grande interesse e experiência em desenvolvimento de aplicativos móveis, trazendo minhas ideias para a palma da sua mão, e na criação de bots, automatizando tarefas e melhorando interações em diversas plataformas.</p>
-        <p>Acredito que a tecnologia tem o poder de transformar vidas e estou sempre buscando novos desafios e oportunidades para aplicar minhas habilidades e aprender mais. Meu objetivo é criar soluções que não apenas funcionem, mas que também sejam intuitivas, eficazes e elegantes.</p>
+    <div class="background-animated" id="about-background">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="shine"></div>
+        <div class="geometric-pattern"></div>
+        <div class="depth-overlay"></div>
+    </div>
+    <div class="container about-content">
+        <div class="about-text">
+            <h2>Sobre Mim</h2>
+            <h3>Minha Jornada Profissional e Acadêmica</h3>
+            <p>Desde muito jovem, fui cativado pelo mundo da tecnologia e, em particular, pela programação. Minha jornada começou com uma curiosidade insaciável sobre como os softwares funcionam, o que rapidamente se transformou em paixão por construir e inovar.</p>
+            <p>Atualmente, sou estudante de Ciência da Computação no ISCTEM, onde estou aprofundando meus conhecimentos em algoritmos, estruturas de dados e desenvolvimento de sistemas. Sou um desenvolvedor Full Stack, o que significa que tenho experiência tanto no front-end (a parte visual e interativa que você vê) quanto no back-end (a lógica e a base de dados que fazem tudo funcionar).</p>
+            <p>Minha especialidade reside no desenvolvimento Java, onde crio aplicações robustas e eficientes. Além disso, tenho grande interesse e experiência em desenvolvimento de aplicativos móveis, trazendo minhas ideias para a palma da sua mão, e na criação de bots, automatizando tarefas e melhorando interações em diversas plataformas.</p>
+            <p>Acredito que a tecnologia tem o poder de transformar vidas e estou sempre buscando novos desafios e oportunidades para aplicar minhas habilidades e aprender mais. Meu objetivo é criar soluções que não apenas funcionem, mas que também sejam intuitivas, eficazes e elegantes.</p>
 
-        <h3>Minha Linha do Tempo</h3>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-year">2023 - Presente</div>
-                <h4 class="timeline-title">Estudante de Ciência da Computação</h4>
-                <p class="timeline-description">Início do curso de Ciência da Computação no ISCTEM, aprofundando-me em fundamentos de programação, sistemas operacionais e redes.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2024 - Presente</div>
-                <h4 class="timeline-title">Desenvolvedor Java & Mobile App</h4>
-                <p class="timeline-description">Desenvolvimento de projetos pessoais e freelances utilizando Java para aplicações desktop e web, além de iniciar no desenvolvimento de aplicativos móveis.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2024 - Presente</div>
-                <h4 class="timeline-title">Criador de Bots</h4>
-                <p class="timeline-description">Criação de bots para plataformas como Discord, focando em automação e melhoria da interação do usuário.</p>
+            <h3>Minha Linha do Tempo</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2023 - Presente</div>
+                    <h4 class="timeline-title">Estudante de Ciência da Computação</h4>
+                    <p class="timeline-description">Início do curso de Ciência da Computação no ISCTEM, aprofundando-me em fundamentos de programação, sistemas operacionais e redes.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024 - Presente</div>
+                    <h4 class="timeline-title">Desenvolvedor Java & Mobile App</h4>
+                    <p class="timeline-description">Desenvolvimento de projetos pessoais e freelances utilizando Java para aplicações desktop e web, além de iniciar no desenvolvimento de aplicativos móveis.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024 - Presente</div>
+                    <h4 class="timeline-title">Criador de Bots</h4>
+                    <p class="timeline-description">Criação de bots para plataformas como Discord, focando em automação e melhoria da interação do usuário.</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="about-personal-section">
-        <div class="profile-image">
-            <img src="https://i.imgur.com/XBDJ5VL.jpeg" alt="Quirson Fernando Ngale Profile Picture">
+        <div class="about-personal-section">
+            <div class="profile-image">
+                <img src="https://i.imgur.com/XBDJ5VL.jpeg" alt="Quirson Fernando Ngale Profile Picture">
+            </div>
+            <h3>Quirson Fernando Ngale</h3>
+            <p>Paixão por código, aprendizado contínuo e criação de soluções que importam. Vamos construir algo incrível juntos!</p>
         </div>
-        <h3>Quirson Fernando Ngale</h3>
-        <p>Paixão por código, aprendizado contínuo e criação de soluções que importam. Vamos construir algo incrível juntos!</p>
     </div>
-</div>
 </div>
 
 <div id="alertModal" class="modal-overlay">
