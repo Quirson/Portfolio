@@ -6,6 +6,7 @@
     <title>Quirson Fernando Ngale - Full Stack Developer</title>
     <meta name="description" content="Professional portfolio of Quirson Fernando Ngale - Java Developer, Bot Creator, Mobile App Developer">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Base Reset */
         * {
@@ -30,6 +31,12 @@
             --shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.15); /* Sombra mais sutil e profissional */
             --border-radius: 12px;     /* Borda ligeiramente menor */
             --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.25);
+
+            /* Cores para o modal */
+            --modal-bg-light: rgba(255, 255, 255, 0.95);
+            --modal-bg-dark: rgba(26, 32, 44, 0.95);
+            --modal-border-light: rgba(0, 0, 0, 0.1);
+            --modal-border-dark: rgba(255, 255, 255, 0.1);
         }
 
         /* Dark Mode Specific Variables */
@@ -41,11 +48,18 @@
             --gradient: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); /* Gradiente escuro para o hero */
             --shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.4);
             --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.4);
+            --modal-bg: var(--modal-bg-dark);
+            --modal-border: var(--modal-border-dark);
         }
+        body:not(.dark-mode) {
+            --modal-bg: var(--modal-bg-light);
+            --modal-border: var(--modal-border-light);
+        }
+
 
         /* General Body Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', sans-serif; /* Usando a nova fonte */
             line-height: 1.6;
             color: var(--text-primary);
             background: var(--bg-primary);
@@ -335,24 +349,12 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
-        /* Page Backgrounds */
-        .projects-page,
-        .about-page {
-            background: var(--bg-secondary); /* Usa o bg-secondary para páginas */
-            color: var(--text-primary);
-            min-height: 100vh;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-        body.dark-mode .projects-page,
-        body.dark-mode .about-page {
-            background: var(--bg-dark);
-            color: var(--text-dark);
-        }
-
         /* Projects Page */
         .projects-header {
             text-align: center;
             padding: 90px 0 60px; /* Mais padding */
+            position: relative; /* Para garantir que o texto esteja acima do fundo animado */
+            z-index: 1;
         }
         .projects-title {
             font-size: 2.8rem; /* Maior e mais impactante */
@@ -366,9 +368,12 @@
         }
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Min-width um pouco menor para mais flexibilidade */
-            gap: 40px; /* Mais espaço entre cartões */
+            /* ALTERAÇÃO CHAVE AQUI: Aumentamos o minmax para blocos maiores */
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Aumentado para 400px */
+            gap: 40px; /* Reduzido ligeiramente o gap para dar mais espaço aos blocos */
             padding: 0 0 100px;
+            position: relative; /* Para garantir que os cards estejam acima do fundo animado */
+            z-index: 1;
         }
         .project-card {
             background: var(--bg-primary);
@@ -389,26 +394,25 @@
             transform: translateY(-12px); /* Mais elevação */
             box-shadow: var(--card-shadow-hover); /* Sombra mais destacada */
         }
-        .project-image {
-            height: 200px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); /* Consistente com tema */
+        .project-image-wrapper { /* Novo wrapper para a imagem */
+            width: 100%;
+            height: 280px; /* Aumentamos a altura da imagem para preencher melhor o card */
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); /* Fundo caso a imagem não carregue */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
         }
-        .project-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .project-image-wrapper img {
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.1); /* Overlay sutil */
+            object-fit: cover; /* Garante que a imagem cubra a área */
+            transition: transform 0.3s ease;
         }
+        .project-card:hover .project-image-wrapper img {
+            transform: scale(1.05); /* Zoom sutil na imagem ao passar o mouse */
+        }
+
         .project-content {
             padding: 30px;
             flex-grow: 1; /* Preenche o espaço disponível */
@@ -416,7 +420,7 @@
             flex-direction: column;
         }
         .project-card h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem; /* Levemente maior */
             margin-bottom: 15px;
             color: var(--text-primary);
         }
@@ -435,9 +439,9 @@
         .tech-tag {
             background: var(--accent-color); /* Usa a cor de destaque */
             color: white;
-            padding: 7px 14px; /* Padding maior */
+            padding: 8px 16px; /* Padding maior */
             border-radius: 25px; /* Mais arredondado */
-            font-size: 0.85rem; /* Um pouco maior */
+            font-size: 0.9rem; /* Um pouco maior */
             font-weight: 500;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -447,8 +451,8 @@
             margin-top: 15px; /* Empurra um pouco para baixo */
         }
         .btn-small {
-            padding: 10px 20px; /* Padding maior */
-            font-size: 0.95rem; /* Levemente maior */
+            padding: 12px 25px; /* Padding maior */
+            font-size: 1rem; /* Levemente maior */
             border-radius: 8px;
             border: none;
             cursor: pointer;
@@ -474,15 +478,31 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        /* About Page */
-        .about-page {
-            /* Estilos já definidos acima com .projects-page, .about-page */
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            /* ... (manter o restante do CSS responsivo inalterado ou ajustar conforme necessário) */
+            .projects-grid {
+                /* Para mobile, se os cards forem muito grandes com 400px, podemos ajustar */
+                grid-template-columns: 1fr; /* Volta para uma coluna */
+                gap: 30px; /* Reduzir gap para mobile */
+            }
+            .project-card {
+                max-width: 95%; /* Permite que o cartão ocupe mais largura no mobile */
+                margin: 0 auto; /* Centraliza */
+            }
+            .project-image-wrapper {
+                height: 200px; /* Altura da imagem ligeiramente reduzida para mobile */
+            }
         }
+
+        /* About Page */
         .about-content {
             display: grid;
             grid-template-columns: 1.2fr 1fr; /* Texto ligeiramente maior */
             gap: 80px; /* Mais espaço */
             padding: 100px 0; /* Mais padding */
+            position: relative; /* Para garantir que o conteúdo esteja acima do fundo animado */
+            z-index: 1;
         }
         .about-text h2 {
             font-size: 2.8rem;
@@ -505,6 +525,51 @@
             margin-bottom: 25px; /* Mais espaço */
             line-height: 1.8; /* Melhor legibilidade */
         }
+
+        /* About Page - Personal Section (Novo) */
+        .about-personal-section {
+            background: var(--bg-primary); /* Usa o bg-primary para o card */
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.08);
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        body.dark-mode .about-personal-section {
+            background: var(--bg-darker);
+            border-color: rgba(255,255,255,0.12);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .about-personal-section .profile-image {
+            width: 200px; /* Tamanho reduzido para a seção About */
+            height: 200px;
+            margin-bottom: 30px;
+            animation: none; /* Remove a flutuação aqui */
+            box-shadow: 0 0 0 7px rgba(255,255,255,0.1); /* Anel branco sutil */
+        }
+        body.dark-mode .about-personal-section .profile-image {
+            box-shadow: 0 0 0 7px rgba(0,0,0,0.1);
+        }
+
+
+        .about-personal-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        .about-personal-section p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+
         .timeline {
             position: relative;
             padding-left: 30px; /* Espaço para a linha */
@@ -557,6 +622,88 @@
             font-size: 0.95rem;
             line-height: 1.6;
             margin-top: 8px;
+        }
+
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Fundo escuro semitransparente */
+            backdrop-filter: blur(5px); /* Efeito de blur no fundo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000; /* Acima de tudo */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            max-width: 450px; /* Tamanho do modal */
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative; /* Para o botão de fechar */
+            border: 1px solid var(--modal-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        .modal-message {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .modal-close-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Animação para o ícone do modal */
+        @keyframes bounceIn {
+            0% { transform: scale(0.1); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
         }
 
         /* Mobile Responsive */
@@ -620,6 +767,11 @@
             .timeline-item::before {
                 left: -6px; /* Ajuste para centralizar com a linha */
             }
+
+            .modal-content {
+                margin: 0 20px; /* Margem nas laterais para telas menores */
+                padding: 30px;
+            }
         }
 
         /* Loading Animation */
@@ -678,12 +830,12 @@
     <section class="hero">
         <div class="container hero-content">
             <div class="hero-text">
-                <h1>Hi, I'm Quirson Fernando Ngale</h1>
-                <p class="subtitle">I'm a <span class="typing-text" id="typing"></span></p>
-                <p>19-year-old Full Stack Developer and Computer Science student at ISCTEM, passionate about creating innovative solutions with Java, mobile development, and bot creation.</p>
+                <h1>Olá, eu sou Quirson Fernando Ngale</h1>
+                <p class="subtitle">Eu sou um(a) <span class="typing-text" id="typing"></span></p>
+                <p>Desenvolvedor Full Stack de 19 anos e estudante de Ciência da Computação no ISCTEM, apaixonado por criar soluções inovadoras com Java, desenvolvimento mobile e criação de bots.</p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn btn-primary" onclick="showPage('projects')">View My Work</a>
-                    <a href="#" class="btn btn-secondary" onclick="showPage('about')">About Me</a>
+                    <a href="#" class="btn btn-primary" onclick="showPage('projects')">Ver Meus Projetos</a>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('about')">Sobre Mim</a>
                 </div>
                 <div class="social-links">
                     <a href="https://github.com/Quirson" target="_blank" class="social-link" title="GitHub">
@@ -713,114 +865,133 @@
 </div>
 
 <div id="projects" class="page projects-page">
-    <div class="container">
-        <div class="projects-header">
-            <h1 class="projects-title">Featured Projects</h1>
+    <div class="animated-bg"></div> <div class="container">
+    <div class="projects-header">
+        <h1 class="projects-title">Projetos Em Destaque</h1>
+    </div>
+    <div class="projects-grid">
+        <div class="project-card">
+            <div class="project-image-wrapper">
+                <img src="https://i.imgur.com/HpYmtW8.jpeg" alt="BeForwardApp Project">
+            </div>
+            <div class="project-content">
+                <h3>BeForwardApp</h3>
+                <p>Uma aplicação Java completa para gestão automotiva com rastreamento avançado de carros, gestão de inventário e análise de dados.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">MySQL</span>
+                    <span class="tech-tag">REST API</span>
+                </div>
+                <div class="project-actions">
+                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                    <button class="btn-small btn-demo" data-message="O projeto Live Demo ainda está em desenvolvimento."><i class="fas fa-external-link-alt"></i> Live Demo</button>
+                </div>
+            </div>
         </div>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-image"><i class="fas fa-car"></i></div>
-                <div class="project-content">
-                    <h3>BeForwardApp</h3>
-                    <p>A comprehensive Java application for automotive management with advanced car tracking, inventory management, and data analytics.</p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">Spring Boot</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">REST API</span>
-                    </div>
-                    <div class="project-actions">
-                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
-                        <button class="btn-small btn-demo"><i class="fas fa-external-link-alt"></i> Live Demo</button>
-                    </div>
+        <div class="project-card">
+            <div class="project-image-wrapper">
+                <img src="https://i.imgur.com/Z8Nz36C.jpeg" alt="Escola_Secundaria Project">
+            </div>
+            <div class="project-content">
+                <h3>Escola_Secundaria</h3>
+                <p>Sistema de gestão educacional para escolas secundárias, otimizando matrículas de alunos, acompanhamento de notas e ferramentas administrativas.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">JavaFX</span>
+                    <span class="tech-tag">SQLite</span>
+                    <span class="tech-tag">MVC</span>
+                </div>
+                <div class="project-actions">
+                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                    <button class="btn-small btn-demo" data-message="O projeto Live Demo ainda está em desenvolvimento."><i class="fas fa-external-link-alt"></i> Live Demo</button>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"><i class="fas fa-graduation-cap"></i></div>
-                <div class="project-content">
-                    <h3>Escola_Secundaria</h3>
-                    <p>Educational management system for secondary schools, streamlining student enrollment, grade tracking, and administrative tools.</p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">JavaFX</span>
-                        <span class="tech-tag">SQLite</span>
-                        <span class="tech-tag">MVC</span>
-                    </div>
-                    <div class="project-actions">
-                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
-                        <button class="btn-small btn-demo"><i class="fas fa-external-link-alt"></i> Live Demo</button>
-                    </div>
+        </div>
+        <div class="project-card">
+            <div class="project-image-wrapper">
+                <img src="https://i.imgur.com/CVtT2Uz.jpeg" alt="Launcher Project">
+            </div>
+            <div class="project-content">
+                <h3>Launcher</h3>
+                <p>Lançador de aplicativos customizado com UI moderna, recursos de acesso rápido e ferramentas de otimização do sistema para maior produtividade.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Swing</span>
+                    <span class="tech-tag">System Integration</span>
+                </div>
+                <div class="project-actions">
+                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                    <button class="btn-small btn-demo" data-message="Download Não Disponível No Momento, tente Novamente."><i class="fas fa-download"></i> Download</button>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"><i class="fas fa-rocket"></i></div>
-                <div class="project-content">
-                    <h3>Launcher</h3>
-                    <p>Custom application launcher with modern UI, quick access features, and system optimization tools for enhanced productivity.</p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">Swing</span>
-                        <span class="tech-tag">System APIs</span>
-                        <span class="tech-tag">Threading</span>
-                    </div>
-                    <div class="project-actions">
-                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
-                        <button class="btn-small btn-demo"><i class="fas fa-download"></i> Download</button>
-                    </div>
-                </div>
+        </div>
+        <div class="project-card">
+            <div class="project-image-wrapper">
+                <img src="https://i.imgur.com/bMY82AE.jpeg" alt="Discord Bot Project">
             </div>
-            <div class="project-card">
-                <div class="project-image"><i class="fas fa-comments"></i></div>
-                <div class="project-content">
-                    <h3>Discord Bots</h3>
-                    <p>Collection of feature-rich Discord bots with moderation, entertainment, and utility commands for community management.</p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">Discord.js</span>
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">MongoDB</span>
-                    </div>
-                    <div class="project-actions">
-                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
-                        <button class="btn-small btn-demo"><i class="fas fa-plus-circle"></i> Add Bot</button>
-                    </div>
+            <div class="project-content">
+                <h3>Discord Bot</h3>
+                <p>Bots Discord multifuncionais desenvolvidos para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Discord.js</span>
+                    <span class="tech-tag">APIs</span>
+                    <span class="tech-tag">Deployment</span>
+                </div>
+                <div class="project-actions">
+                    <button class="btn-small btn-view" data-message="O conteúdo do projeto será lançado no dia 1 de Agosto."><i class="fas fa-code"></i> Ver Código</button>
+                    <button class="btn-small btn-demo" data-message="O Bot não está disponível para ser adicionado no momento."><i class="fab fa-discord"></i> Adicionar Bot</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 <div id="about" class="page about-page">
-    <div class="container">
-        <div class="about-content">
-            <div class="about-text">
-                <h2>About Me</h2>
-                <p>Hello! I'm Quirson Fernando Ngale, a passionate 19-year-old developer from Maputo Alto Maé, Mozambique. Currently pursuing my studies at ISCTEM, I'm dedicated to creating innovative solutions through code.</p>
-                <h3>My Journey</h3>
-                <p>My programming journey began with curiosity about how technology works. What started as a hobby quickly became a passion, leading me to explore various programming languages and technologies.</p>
-                <h3>What Drives Me</h3>
-                <p>I'm motivated by the endless possibilities that programming offers. Whether it's building a mobile app that solves real-world problems, creating efficient web applications, or developing bots that enhance user experiences, I find joy in turning ideas into reality.</p>
-                <h3>Beyond Coding</h3>
-                <p>When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and connecting with fellow developers in the community. I believe in the power of collaboration and knowledge sharing.</p>
+    <div class="animated-bg"></div> <div class="container about-content">
+    <div class="about-text">
+        <h2>Sobre Mim</h2>
+        <h3>Minha Jornada Profissional e Acadêmica</h3>
+        <p>Desde muito jovem, fui cativado pelo mundo da tecnologia e, em particular, pela programação. Minha jornada começou com uma curiosidade insaciável sobre como os softwares funcionam, o que rapidamente se transformou em paixão por construir e inovar.</p>
+        <p>Atualmente, sou estudante de Ciência da Computação no ISCTEM, onde estou aprofundando meus conhecimentos em algoritmos, estruturas de dados e desenvolvimento de sistemas. Sou um desenvolvedor Full Stack, o que significa que tenho experiência tanto no front-end (a parte visual e interativa que você vê) quanto no back-end (a lógica e a base de dados que fazem tudo funcionar).</p>
+        <p>Minha especialidade reside no desenvolvimento Java, onde crio aplicações robustas e eficientes. Além disso, tenho grande interesse e experiência em desenvolvimento de aplicativos móveis, trazendo minhas ideias para a palma da sua mão, e na criação de bots, automatizando tarefas e melhorando interações em diversas plataformas.</p>
+        <p>Acredito que a tecnologia tem o poder de transformar vidas e estou sempre buscando novos desafios e oportunidades para aplicar minhas habilidades e aprender mais. Meu objetivo é criar soluções que não apenas funcionem, mas que também sejam intuitivas, eficazes e elegantes.</p>
+
+        <h3>Minha Linha do Tempo</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">2023 - Presente</div>
+                <h4 class="timeline-title">Estudante de Ciência da Computação</h4>
+                <p class="timeline-description">Início do curso de Ciência da Computação no ISCTEM, aprofundando-me em fundamentos de programação, sistemas operacionais e redes.</p>
             </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year">2024</div>
-                    <div class="timeline-title">University Student at ISCTEM</div>
-                    <div class="timeline-description">Currently pursuing higher education while developing professional projects and expanding technical skills.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2023</div>
-                    <div class="timeline-title">Advanced Java Development</div>
-                    <div class="timeline-description">Mastered enterprise Java development, Spring Framework, and database integration for complex applications.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2022</div>
-                    <div class="timeline-title">Mobile App Development</div>
-                    <div class="timeline-description">Started developing cross-platform mobile applications for Android and iOS platforms.</div>
-                </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024 - Presente</div>
+                <h4 class="timeline-title">Desenvolvedor Java & Mobile App</h4>
+                <p class="timeline-description">Desenvolvimento de projetos pessoais e freelances utilizando Java para aplicações desktop e web, além de iniciar no desenvolvimento de aplicativos móveis.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024 - Presente</div>
+                <h4 class="timeline-title">Criador de Bots</h4>
+                <p class="timeline-description">Criação de bots para plataformas como Discord, focando em automação e melhoria da interação do usuário.</p>
             </div>
         </div>
+    </div>
+    <div class="about-personal-section">
+        <div class="profile-image">
+            <img src="https://i.imgur.com/XBDJ5VL.jpeg" alt="Quirson Fernando Ngale Profile Picture">
+        </div>
+        <h3>Quirson Fernando Ngale</h3>
+        <p>Paixão por código, aprendizado contínuo e criação de soluções que importam. Vamos construir algo incrível juntos!</p>
+    </div>
+</div>
+</div>
+
+<div id="alertModal" class="modal-overlay">
+    <div class="modal-content">
+        <i class="fas fa-exclamation-triangle modal-icon"></i> <p id="modalMessage" class="modal-message"></p>
+        <button id="closeModalBtn" class="modal-close-btn">OK</button>
     </div>
 </div>
 
@@ -884,7 +1055,24 @@
                 link.classList.add('active');
             }
         });
+
+        // Scroll to top when changing page, but smoothly
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
+
+    // Set initial active page based on URL hash if available
+    document.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.substring(1); // Remove '#'
+        if (hash && document.getElementById(hash)) {
+            showPage(hash);
+        } else {
+            showPage('home'); // Default to home if no valid hash
+        }
+    });
+
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -931,6 +1119,39 @@
             text.textContent = 'Dark Mode';
         }
     }
+
+    // --- Modal Logic ---
+    const alertModal = document.getElementById('alertModal');
+    const modalMessage = document.getElementById('modalMessage');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const projectActionButtons = document.querySelectorAll('.project-actions button');
+
+    function openModal(message) {
+        modalMessage.textContent = message;
+        alertModal.classList.add('active');
+    }
+
+    function closeModal() {
+        alertModal.classList.remove('active');
+    }
+
+    projectActionButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const message = event.target.dataset.message; // Get message from data-message attribute
+            if (message) {
+                openModal(message);
+            }
+        });
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+    // Close modal if clicking outside the content (on the overlay)
+    alertModal.addEventListener('click', (event) => {
+        if (event.target === alertModal) {
+            closeModal();
+        }
+    });
+
 </script>
 </body>
 </html>
