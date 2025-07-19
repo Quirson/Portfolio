@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quirson Fernando Ngale - Full Stack Developer</title>
+    <meta name="description" content="Professional portfolio of Quirson Fernando Ngale - Java Developer, Bot Creator, Mobile App Developer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* CSS Variables for Theming */
+        :root {
+            --primary-color: #e53e3e; /* Mais avermelhado */
+            --secondary-color: #c53030; /* Vermelho mais escuro para destaque */
+            --accent-color: #fc8181;   /* Tom mais claro de vermelho/salmão */
+            --text-primary: #1a202c;   /* Cor de texto padrão (quase preto) */
+            --text-secondary: #4a5568; /* Cor de texto secundária (cinza escuro) */
+            --bg-primary: #ffffff;    /* Fundo claro principal */
+            --bg-secondary: #f7fafc;   /* Fundo claro secundário */
+            --bg-dark: #1a202c;        /* Fundo escuro principal */
+            --bg-darker: #2d3748;      /* Fundo escuro secundário */
+            --text-dark: #f7fafc;      /* Texto para modo escuro */
+            --gradient: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); /* Gradiente avermelhado */
+            --shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.15); /* Sombra mais sutil e profissional */
+            --border-radius: 12px;     /* Borda ligeiramente menor */
+            --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Dark Mode Specific Variables */
+        body.dark-mode {
+            --text-primary: var(--text-dark);
+            --text-secondary: #a0aec0;
+            --bg-primary: var(--bg-dark);
+            --bg-secondary: var(--bg-darker);
+            --gradient: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); /* Gradiente escuro para o hero */
+            --shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.4);
+            --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* General Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px; /* Aumentado padding para um visual mais limpo */
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 18px 0; /* Aumentado padding para mais espaço */
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0,0,0,0.05); /* Linha sutil */
+        }
+        body.dark-mode nav {
+            background: rgba(26, 32, 44, 0.95);
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow);
+            border-bottom: none;
+        }
+        body.dark-mode nav.scrolled {
+            background: rgba(26, 32, 44, 0.98);
+            box-shadow: var(--shadow);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.6rem; /* Levemente maior */
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px; /* Mais espaço entre os links */
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            padding: 5px 0; /* Padding para a área de hover */
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0px; /* Alinhado com a parte inferior do padding */
+            left: 0;
+            width: 0;
+            height: 2.5px; /* Um pouco mais grossa */
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        body.dark-mode .theme-toggle {
+            background: var(--bg-darker);
+            border-color: rgba(255,255,255,0.1);
+            color: var(--text-dark);
+        }
+        .theme-toggle:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .theme-toggle:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        .theme-toggle .icon {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        .theme-toggle:hover .icon {
+            transform: scale(1.1);
+        }
+
+        /* Page System */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--gradient); /* Usa a variável de gradiente */
+            position: relative;
+            overflow: hidden;
+            margin-top: -80px;
+            padding-top: 80px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff10" points="0,1000 1000,0 1000,1000"/></svg>');
+            opacity: 0.1; /* Sutil padrão */
+        }
+        body.dark-mode .hero::before {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%2300000020" points="0,1000 1000,0 1000,1000"/></svg>');
+            opacity: 0.15;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px; /* Mais espaço */
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-text {
+            color: white;
+        }
+        .hero h1 {
+            font-size: 3.8rem; /* Um pouco maior para impacto */
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+        .hero .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 35px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+        .typing-text {
+            color: var(--accent-color); /* Usa a cor de destaque para o texto de digitação */
+            border-right: 2px solid var(--accent-color);
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 25px; /* Mais espaço */
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+        .btn {
+            padding: 14px 35px; /* Padding maior */
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Sombra inicial */
+        }
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn:hover {
+            transform: translateY(-3px); /* Mais destaque no hover */
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3); /* Sombra mais profunda no hover */
+        }
+        .hero-image {
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.2s forwards;
+        }
+        .profile-image {
+            width: 320px; /* Levemente maior */
+            height: 320px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color), var(--secondary-color)); /* Gradiente mais consistente com a paleta */
+            padding: 7px; /* Padding maior */
+            animation: float 3s ease-in-out infinite;
+            margin: 0 auto;
+            box-shadow: 0 0 0 10px rgba(255,255,255,0.1); /* Anel branco sutil */
+        }
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+            border: 3px solid white; /* Borda interna sutil */
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); } /* Flutuação mais suave */
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px); /* Menor movimento inicial */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 18px; /* Mais espaço */
+            margin-top: 40px; /* Mais margem */
+        }
+        .social-link {
+            width: 55px; /* Um pouco maior */
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15); /* Fundo mais sutil */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem; /* Ícones maiores */
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        .social-link:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-5px) rotate(5deg); /* Animação mais dinâmica */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Page Backgrounds */
+        .projects-page,
+        .about-page {
+            background: var(--bg-secondary); /* Usa o bg-secondary para páginas */
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        body.dark-mode .projects-page,
+        body.dark-mode .about-page {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* Projects Page */
+        .projects-header {
+            text-align: center;
+            padding: 90px 0 60px; /* Mais padding */
+        }
+        .projects-title {
+            font-size: 2.8rem; /* Maior e mais impactante */
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            background: var(--gradient); /* Logo estilizado */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block; /* Para o gradiente no texto */
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Min-width um pouco menor para mais flexibilidade */
+            gap: 40px; /* Mais espaço entre cartões */
+            padding: 0 0 100px;
+        }
+        .project-card {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.08); /* Borda mais suave */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column; /* Para layout flexível interno */
+        }
+        body.dark-mode .project-card {
+            background: var(--bg-darker);
+            border-color: rgba(255,255,255,0.12);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .project-card:hover {
+            transform: translateY(-12px); /* Mais elevação */
+            box-shadow: var(--card-shadow-hover); /* Sombra mais destacada */
+        }
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); /* Consistente com tema */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.1); /* Overlay sutil */
+        }
+        .project-content {
+            padding: 30px;
+            flex-grow: 1; /* Preenche o espaço disponível */
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 25px; /* Mais espaço */
+            line-height: 1.7;
+            flex-grow: 1; /* Garante que o parágrafo ocupe o espaço */
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Mais espaço */
+            margin-bottom: 25px;
+        }
+        .tech-tag {
+            background: var(--accent-color); /* Usa a cor de destaque */
+            color: white;
+            padding: 7px 14px; /* Padding maior */
+            border-radius: 25px; /* Mais arredondado */
+            font-size: 0.85rem; /* Um pouco maior */
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .project-actions {
+            display: flex;
+            gap: 12px; /* Mais espaço */
+            margin-top: 15px; /* Empurra um pouco para baixo */
+        }
+        .btn-small {
+            padding: 10px 20px; /* Padding maior */
+            font-size: 0.95rem; /* Levemente maior */
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .btn-view {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        .btn-demo {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--text-secondary); /* Usa a cor de texto secundária para a borda */
+        }
+        body.dark-mode .btn-demo {
+            border-color: #a0aec0;
+            color: #a0aec0;
+        }
+        .btn-small:hover {
+            transform: translateY(-3px); /* Mais elevação */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* About Page */
+        .about-page {
+            /* Estilos já definidos acima com .projects-page, .about-page */
+        }
+        .about-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr; /* Texto ligeiramente maior */
+            gap: 80px; /* Mais espaço */
+            padding: 100px 0; /* Mais padding */
+        }
+        .about-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            background: var(--gradient); /* Logo estilizado */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+        .about-text h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600; /* Mais destaque */
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 25px; /* Mais espaço */
+            line-height: 1.8; /* Melhor legibilidade */
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px; /* Espaço para a linha */
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px; /* Linha mais grossa */
+            background: var(--primary-color);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 50px; /* Ajuste para o círculo */
+            margin-bottom: 50px; /* Mais espaço entre itens */
+            display: flex;
+            flex-direction: column;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 5px; /* Ajuste vertical */
+            width: 15px; /* Círculo maior */
+            height: 15px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid var(--bg-secondary); /* Borda para contraste */
+            z-index: 1;
+        }
+        body.dark-mode .timeline-item::before {
+            border-color: var(--bg-dark);
+        }
+        .timeline-year {
+            color: var(--accent-color); /* Cor de destaque para o ano */
+            font-weight: bold;
+            font-size: 1rem; /* Um pouco maior */
+            margin-bottom: 5px;
+        }
+        .timeline-title {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 600;
+        }
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Mantém oculto no mobile, considere um hambúrguer menu */
+            }
+            .nav-container {
+                justify-content: center; /* Centraliza logo e botão de tema */
+                gap: 20px;
+            }
+            .logo {
+                font-size: 1.3rem;
+            }
+            .theme-toggle {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                gap: 8px;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            .hero-content,
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            .profile-image {
+                width: 280px; /* Levemente menor */
+                height: 280px;
+                margin-top: 40px;
+            }
+            .cta-buttons {
+                justify-content: center;
+                gap: 15px;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .project-card {
+                max-width: 90%; /* Limita a largura do cartão no mobile */
+                margin: 0 auto; /* Centraliza */
+            }
+            .timeline {
+                padding-left: 0;
+            }
+            .timeline::before {
+                left: 0;
+            }
+            .timeline-item {
+                padding-left: 30px;
+            }
+            .timeline-item::before {
+                left: -6px; /* Ajuste para centralizar com a linha */
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient); /* Usa o gradiente avermelhado */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+        .loading.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="loading" id="loading">
+    <div class="loader"></div>
+</div>
+
+<nav id="navbar">
+    <div class="container nav-container">
+        <div class="logo">NGALE JUNIOR</div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+            <li><a href="#" onclick="showPage('projects')" class="nav-link">Projects</a></li>
+            <li><a href="#" onclick="showPage('about')" class="nav-link">About</a></li>
+        </ul>
+        <button id="theme-toggle" class="theme-toggle">
+            <i class="fas fa-moon icon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+</nav>
+
+<div id="home" class="page active">
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Hi, I'm Quirson Fernando Ngale</h1>
+                <p class="subtitle">I'm a <span class="typing-text" id="typing"></span></p>
+                <p>19-year-old Full Stack Developer and Computer Science student at ISCTEM, passionate about creating innovative solutions with Java, mobile development, and bot creation.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary" onclick="showPage('projects')">View My Work</a>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('about')">About Me</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/Quirson" target="_blank" class="social-link" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:quirsonngale@gmail.com" class="social-link" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/quirson-fernando-ngale-97a4a3375" target="_blank" class="social-link" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://instagram.com/quirson_ngale_" target="_blank" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/300" alt="Quirson Fernando Ngale Profile Picture">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="projects" class="page projects-page">
+    <div class="container">
+        <div class="projects-header">
+            <h1 class="projects-title">Featured Projects</h1>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image"><i class="fas fa-car"></i></div>
+                <div class="project-content">
+                    <h3>BeForwardApp</h3>
+                    <p>A comprehensive Java application for automotive management with advanced car tracking, inventory management, and data analytics.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">REST API</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
+                        <button class="btn-small btn-demo"><i class="fas fa-external-link-alt"></i> Live Demo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><i class="fas fa-graduation-cap"></i></div>
+                <div class="project-content">
+                    <h3>Escola_Secundaria</h3>
+                    <p>Educational management system for secondary schools, streamlining student enrollment, grade tracking, and administrative tools.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">JavaFX</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">MVC</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
+                        <button class="btn-small btn-demo"><i class="fas fa-external-link-alt"></i> Live Demo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><i class="fas fa-rocket"></i></div>
+                <div class="project-content">
+                    <h3>Launcher</h3>
+                    <p>Custom application launcher with modern UI, quick access features, and system optimization tools for enhanced productivity.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Swing</span>
+                        <span class="tech-tag">System APIs</span>
+                        <span class="tech-tag">Threading</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
+                        <button class="btn-small btn-demo"><i class="fas fa-download"></i> Download</button>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><i class="fas fa-comments"></i></div>
+                <div class="project-content">
+                    <h3>Discord Bots</h3>
+                    <p>Collection of feature-rich Discord bots with moderation, entertainment, and utility commands for community management.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Discord.js</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-small btn-view"><i class="fas fa-code"></i> View Code</button>
+                        <button class="btn-small btn-demo"><i class="fas fa-plus-circle"></i> Add Bot</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="about" class="page about-page">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>Hello! I'm Quirson Fernando Ngale, a passionate 19-year-old developer from Maputo Alto Maé, Mozambique. Currently pursuing my studies at ISCTEM, I'm dedicated to creating innovative solutions through code.</p>
+                <h3>My Journey</h3>
+                <p>My programming journey began with curiosity about how technology works. What started as a hobby quickly became a passion, leading me to explore various programming languages and technologies.</p>
+                <h3>What Drives Me</h3>
+                <p>I'm motivated by the endless possibilities that programming offers. Whether it's building a mobile app that solves real-world problems, creating efficient web applications, or developing bots that enhance user experiences, I find joy in turning ideas into reality.</p>
+                <h3>Beyond Coding</h3>
+                <p>When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and connecting with fellow developers in the community. I believe in the power of collaboration and knowledge sharing.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-title">University Student at ISCTEM</div>
+                    <div class="timeline-description">Currently pursuing higher education while developing professional projects and expanding technical skills.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-title">Advanced Java Development</div>
+                    <div class="timeline-description">Mastered enterprise Java development, Spring Framework, and database integration for complex applications.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-title">Mobile App Development</div>
+                    <div class="timeline-description">Started developing cross-platform mobile applications for Android and iOS platforms.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-title">Web Development Journey</div>
+                    <div class="timeline-description">Began learning modern web technologies including HTML5, CSS3, and JavaScript ES6+.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-title">Programming Foundations</div>
+                    <div class="timeline-description">Started programming journey with Java as the first language, building strong OOP foundations.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('fade-out');
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+            }, 500);
+        }, 1000);
+    });
+
+    // Page Navigation System
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.querySelector(`[onclick="showPage('${pageId}')"]`).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Typing Effect
+    const typingElement = document.getElementById('typing');
+    const texts = ['Full Stack Developer', 'Java Programmer', 'Bot Creator', 'Mobile App Developer', 'Problem Solver'];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+        const currentText = texts[textIndex];
+        if (isDeleting) {
+            typingElement.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typingElement.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        if (!isDeleting && charIndex === currentText.length) {
+            setTimeout(() => isDeleting = true, 1000);
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+        }
+
+        const typingSpeed = isDeleting ? 50 : 100;
+        setTimeout(typeEffect, typingSpeed);
+    }
+
+    setTimeout(typeEffect, 2000);
+
+    // Navbar Scroll Effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun icon"></i> <span>Light Mode</span>';
+    } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon icon"></i> <span>Dark Mode</span>';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun icon"></i> <span>Light Mode</span>';
+        } else {
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerHTML = '<i class="fas fa-moon icon"></i> <span>Dark Mode</span>';
+        }
+    });
+
+    // Project button interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-small').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.trim(); // Pega o texto do botão
+                // Adicione aqui a lógica real para seus botões
+                if (action.includes('View Code')) {
+                    alert('Redirecting to GitHub repository...');
+                    // window.open('LINK_DO_SEU_REPOSITORIO', '_blank');
+                } else if (action.includes('Live Demo')) {
+                    alert('Opening live demo...');
+                    // window.open('LINK_DA_DEMO_AO_VIVO', '_blank');
+                } else if (action.includes('Download')) {
+                    alert('Starting download...');
+                    // window.open('LINK_DO_DOWNLOAD', '_blank');
+                } else if (action.includes('Add Bot')) {
+                    alert('Redirecting to Discord bot invitation...');
+                    // window.open('LINK_DE_CONVITE_DO_BOT', '_blank');
+                }
+            });
+        });
+    });
+
+    // Smooth animations for project cards
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+            }
+        });
+    }, observerOptions);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
+    });
+</script>
+</body>
+</html>
