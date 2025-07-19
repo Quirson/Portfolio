@@ -698,6 +698,9 @@
                     <a href="https://instagram.com/quirson_ngale_" target="_blank" class="social-link" title="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
+                    <a href="https://discordapp.com/users/quirson_ngale" target="_blank" class="social-link" title="Discord">
+                        <i class="fab fa-discord"></i>
+                    </a>
                 </div>
             </div>
             <div class="hero-image">
@@ -816,78 +819,74 @@
                     <div class="timeline-title">Mobile App Development</div>
                     <div class="timeline-description">Started developing cross-platform mobile applications for Android and iOS platforms.</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2021</div>
-                    <div class="timeline-title">Web Development Journey</div>
-                    <div class="timeline-description">Began learning modern web technologies including HTML5, CSS3, and JavaScript ES6+.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2020</div>
-                    <div class="timeline-title">Programming Foundations</div>
-                    <div class="timeline-description">Started programming journey with Java as the first language, building strong OOP foundations.</div>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Loading Screen
-    window.addEventListener('load', function() {
+    // Loading Animation
+    window.addEventListener('load', () => {
+        const loadingScreen = document.getElementById('loading');
+        loadingScreen.classList.add('fade-out');
         setTimeout(() => {
-            document.getElementById('loading').classList.add('fade-out');
-            setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-            }, 500);
-        }, 1000);
+            loadingScreen.style.display = 'none';
+        }, 500); // Should match the transition duration
     });
 
-    // Page Navigation System
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => {
-            page.classList.remove('active');
-        });
-        document.getElementById(pageId).classList.add('active');
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-        });
-        document.querySelector(`[onclick="showPage('${pageId}')"]`).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     // Typing Effect
-    const typingElement = document.getElementById('typing');
-    const texts = ['Full Stack Developer', 'Java Programmer', 'Bot Creator', 'Mobile App Developer', 'Problem Solver'];
-    let textIndex = 0;
+    const typingTextElement = document.getElementById('typing');
+    const professions = ["Full Stack Developer", "Bot Creator", "Mobile App Developer", "Java Developer"];
+    let professionIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
 
     function typeEffect() {
-        const currentText = texts[textIndex];
+        const currentProfession = professions[professionIndex];
+        const currentText = isDeleting ? currentProfession.substring(0, charIndex - 1) : currentProfession.substring(0, charIndex + 1);
+        typingTextElement.textContent = currentText;
+
+        let typeSpeed = 100;
+
         if (isDeleting) {
-            typingElement.textContent = currentText.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingElement.textContent = currentText.substring(0, charIndex + 1);
-            charIndex++;
+            typeSpeed /= 2; // Speed up deleting
         }
 
-        if (!isDeleting && charIndex === currentText.length) {
-            setTimeout(() => isDeleting = true, 1000);
+        if (!isDeleting && charIndex === currentProfession.length) {
+            typeSpeed = 2000; // Pause at end of text
+            isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
+            professionIndex = (professionIndex + 1) % professions.length;
+            typeSpeed = 500; // Pause before typing next profession
         }
 
-        const typingSpeed = isDeleting ? 50 : 100;
-        setTimeout(typeEffect, typingSpeed);
+        charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+        setTimeout(typeEffect, typeSpeed);
     }
 
-    setTimeout(typeEffect, 2000);
+    document.addEventListener('DOMContentLoaded', typeEffect);
 
-    // Navbar Scroll Effect
-    window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('navbar');
+    // Navigation Active State and Scroll Effect
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
+    const navbar = document.getElementById('navbar');
+
+    function showPage(pageId) {
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.onclick.toString().includes(`showPage('${pageId}')`)) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
@@ -895,73 +894,43 @@
         }
     });
 
-    // Dark Mode Toggle
+    // Theme Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
 
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    if (savedTheme) {
+        body.classList.add(savedTheme);
+        updateThemeToggleIcon(savedTheme === 'dark-mode');
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Default to dark mode if system preference is dark
         body.classList.add('dark-mode');
-        themeToggle.innerHTML = '<i class="fas fa-sun icon"></i> <span>Light Mode</span>';
+        updateThemeToggleIcon(true);
     } else {
-        themeToggle.innerHTML = '<i class="fas fa-moon icon"></i> <span>Dark Mode</span>';
+        updateThemeToggleIcon(false);
     }
 
     themeToggle.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('theme', 'dark');
-            themeToggle.innerHTML = '<i class="fas fa-sun icon"></i> <span>Light Mode</span>';
+        const isDarkMode = body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark-mode' : 'light-mode');
+        updateThemeToggleIcon(isDarkMode);
+    });
+
+    function updateThemeToggleIcon(isDarkMode) {
+        const icon = themeToggle.querySelector('.icon');
+        const text = themeToggle.querySelector('span');
+        if (isDarkMode) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            text.textContent = 'Light Mode';
         } else {
-            localStorage.setItem('theme', 'light');
-            themeToggle.innerHTML = '<i class="fas fa-moon icon"></i> <span>Dark Mode</span>';
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+            text.textContent = 'Dark Mode';
         }
-    });
-
-    // Project button interactions
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.btn-small').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const action = this.textContent.trim(); // Pega o texto do botão
-                // Adicione aqui a lógica real para seus botões
-                if (action.includes('View Code')) {
-                    alert('Redirecting to GitHub repository...');
-                    // window.open('LINK_DO_SEU_REPOSITORIO', '_blank');
-                } else if (action.includes('Live Demo')) {
-                    alert('Opening live demo...');
-                    // window.open('LINK_DA_DEMO_AO_VIVO', '_blank');
-                } else if (action.includes('Download')) {
-                    alert('Starting download...');
-                    // window.open('LINK_DO_DOWNLOAD', '_blank');
-                } else if (action.includes('Add Bot')) {
-                    alert('Redirecting to Discord bot invitation...');
-                    // window.open('LINK_DE_CONVITE_DO_BOT', '_blank');
-                }
-            });
-        });
-    });
-
-    // Smooth animations for project cards
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-            }
-        });
-    }, observerOptions);
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1}s`;
-            observer.observe(card);
-        });
-    });
+    }
 </script>
 </body>
 </html>
