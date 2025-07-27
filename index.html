@@ -438,6 +438,179 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+        /* Glass Card Effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Feature Card com Efeitos 3D */
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.2), transparent);
+            transition: left 0.8s ease;
+            z-index: 1;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(220, 38, 38, 0.3);
+            border-color: rgba(220, 38, 38, 0.4);
+        }
+
+        /* Imagens Circulares com Gradientes */
+        .project-image-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 1rem;
+            padding: 4px;
+            background: linear-gradient(45deg, #dc2626, #ef4444, #f87171);
+            animation: rotateGradient 3s linear infinite;
+        }
+
+        .project-image-circle img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover .project-image-circle img {
+            transform: scale(1.1);
+        }
+
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Badges de Tecnologia */
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .tech-badge {
+            background: rgba(220, 38, 38, 0.2);
+            color: #fca5a5;
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+
+        .tech-badge:hover {
+            background: rgba(220, 38, 38, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Tags de Categoria */
+        .category-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .category-java { background: rgba(59, 130, 246, 0.9); color: white; }
+        .category-website { background: rgba(16, 185, 129, 0.9); color: white; }
+        .category-bot { background: rgba(139, 92, 246, 0.9); color: white; }
+
+        /* Botões de Ação */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+        }
+
+        .action-btn-primary {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .action-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+        }
+
+        .action-btn-secondary {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+            border-color: rgba(107, 114, 128, 0.2);
+        }
+
+        .action-btn-secondary:hover {
+            background: rgba(107, 114, 128, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(107, 114, 128, 0.2);
+        }
+
+        /* Animação de Entrada */
+        .card-enter {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            animation: cardEnter 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes cardEnter {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
     </style>
 </head>
 <body class="theme-transition bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white professional-bg">
@@ -583,147 +756,195 @@
 
             <!-- Projects Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Java Projects -->
-                <div class="project-card java card-hover rounded-xl shadow-xl overflow-hidden">
-                    <div class="project-image-placeholder h-48 relative overflow-hidden">
-                        <img src="Imagens/BeForwardApp.png" alt="BeForwardApp Interface" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            Java App
+                <!-- BeForwardApp -->
+                <div class="glass-card feature-card java card-enter rounded-xl overflow-hidden" style="animation-delay: 0.1s;">
+                    <div class="category-tag category-java">Java App</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/BeForwardApp.png" alt="BeForwardApp Interface">
                         </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-bold">BeForwardApp</h3>
-                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-xs font-semibold">Java</span>
+                        <h3 class="text-xl font-bold mb-3">BeForwardApp</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Uma aplicação Java completa para gestão automotiva com rastreamento avançado de carros, gestão de inventário e análise de dados
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">Java</span>
+                            <span class="tech-badge">JavaFx</span>
+                            <span class="tech-badge">ArrayList</span>
+                            <span class="tech-badge">API</span>
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">Uma aplicação Java completa para gestão automotiva com rastreamento avançado de carros, gestão de inventário e análise de dados</p>
-                        <div class="flex gap-2">
-                            <button class="view-project flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-project="beforward">
-                                <i class="fas fa-eye mr-2"></i>Ver Detalhes
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="beforward">
+                                <i class="fas fa-eye"></i>Ver Detalhes
                             </button>
-                            <button class="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <a href="#" class="action-btn action-btn-secondary">
                                 <i class="fab fa-github"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="project-card java card-hover rounded-xl shadow-xl overflow-hidden">
-                    <div class="project-image-placeholder h-48 relative overflow-hidden">
-                        <img src="Imagens/EscolaSecundaria.png" alt="School Management Dashboard" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            Java App
+                <!-- School Management -->
+                <div class="glass-card feature-card java card-enter rounded-xl overflow-hidden" style="animation-delay: 0.2s;">
+                    <div class="category-tag category-java">Java App</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/EscolaSecundaria.png" alt="School Management Dashboard">
                         </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-bold">School Management</h3>
-                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-xs font-semibold">Java</span>
+                        <h3 class="text-xl font-bold mb-3">School Management</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Sistema de gestão educacional para escolas secundárias, otimizando matrículas de alunos, acompanhamento de notas e ferramentas administrativas.
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">Java</span>
+                            <span class="tech-badge">JavaFx</span>
+                            <span class="tech-badge">MySQL</span>
+                            <span class="tech-badge">API</span>
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">Sistema de gestão educacional para escolas secundárias, otimizando matrículas de alunos, acompanhamento de notas e ferramentas administrativas.</p>
-                        <div class="flex gap-2">
-                            <button class="view-project flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-project="school">
-                                <i class="fas fa-eye mr-2"></i>Ver Detalhes
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="school">
+                                <i class="fas fa-eye"></i>Ver Detalhes
                             </button>
-                            <button class="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <a href="#" class="action-btn action-btn-secondary">
                                 <i class="fab fa-github"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="project-card java card-hover rounded-xl shadow-xl overflow-hidden">
-                    <div class="project-image-placeholder h-48 relative overflow-hidden">
-                        <img src="Imagens/LauncherApp.png" alt="Samp Launcher UI" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            Java App
+                <!-- Samp Launchers -->
+                <div class="glass-card feature-card java card-enter rounded-xl overflow-hidden" style="animation-delay: 0.3s;">
+                    <div class="category-tag category-java">Java App</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/LauncherApp.png" alt="Samp Launcher UI">
                         </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-bold">Samp Launchers</h3>
-                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-xs font-semibold">Java</span>
+                        <h3 class="text-xl font-bold mb-3">Samp Launchers</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Lançador de Samp com UI moderna, recursos de acesso rápido e ferramentas de otimização do sistema para maior produtividade.
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">Java</span>
+                            <span class="tech-badge">JavaFx</span>
+                            <span class="tech-badge">MySQL</span>
+                            <span class="tech-badge">API</span>
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">Lançador de Samp com UI moderna, recursos de acesso rápido e ferramentas de otimização do sistema para maior produtividade.</p>
-                        <div class="flex gap-2">
-                            <button class="view-project flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-project="samp">
-                                <i class="fas fa-eye mr-2"></i>Ver Detalhes
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="samp">
+                                <i class="fas fa-eye"></i>Ver Detalhes
                             </button>
-                            <button class="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <a href="#" class="action-btn action-btn-secondary">
                                 <i class="fab fa-github"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Website Projects -->
-                <div class="project-card website card-hover rounded-xl shadow-xl overflow-hidden">
-                    <div class="project-image-placeholder h-48 relative overflow-hidden">
-                        <img src="Imagens/StarLight.png" alt="StarLight Roleplay Homepage" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            Website
+                <!-- StarLight Roleplay -->
+                <div class="glass-card feature-card website card-enter rounded-xl overflow-hidden" style="animation-delay: 0.4s;">
+                    <div class="category-tag category-website">Website</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/StarLight.png" alt="StarLight Roleplay Homepage">
                         </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-bold">StarLight Roleplay</h3>
-                            <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-semibold">Website</span>
+                        <h3 class="text-xl font-bold mb-3">StarLight Roleplay</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Site que mostra todas as funcionalidades de um servidor Roleplay onde me identifico como Walter White
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">CSS3</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">PHP</span>
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">Site que mostra todas as funcionalidades de um servidor Roleplay onde me identifico como Walter White</p>
-                        <div class="flex gap-2">
-                            <button class="view-project flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-project="starlight">
-                                <i class="fas fa-eye mr-2"></i>Ver Detalhes
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="starlight">
+                                <i class="fas fa-eye"></i>Ver Detalhes
                             </button>
-                            <a href="https://quirson.github.io/StarLight-Roleplay/" target="_blank" class="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <a href="https://quirson.github.io/StarLight-Roleplay/" target="_blank" class="action-btn action-btn-secondary">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="project-card website card-hover rounded-xl shadow-xl overflow-hidden">
-                    <div class="project-image-placeholder h-48 relative overflow-hidden">
-                        <img src="Imagens/EuropaShit.png" alt="Europa Roleplay Website" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            Website
+                <!-- Europa Roleplay -->
+                <div class="glass-card feature-card website card-enter rounded-xl overflow-hidden" style="animation-delay: 0.5s;">
+                    <div class="category-tag category-website">Website</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/EuropaShit.png" alt="Europa Roleplay Website">
                         </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-bold">Europa Roleplay</h3>
-                            <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-semibold">Website</span>
+                        <h3 class="text-xl font-bold mb-3">Europa Roleplay</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Um dos melhores servidores Samp que já joguei. Fui desenvolvedor do site com ajuda da equipe.
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">CSS3</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">PHP</span>
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">Um dos melhores servidores Samp que já joguei. Fui desenvolvedor do site com ajuda da equipe.</p>
-                        <div class="flex gap-2">
-                            <button class="view-project flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-project="europa">
-                                <i class="fas fa-eye mr-2"></i>Ver Detalhes
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="europa">
+                                <i class="fas fa-eye"></i>Ver Detalhes
                             </button>
-                            <a href="https://europa-rp.com" target="_blank" class="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <a href="https://europa-rp.com" target="_blank" class="action-btn action-btn-secondary">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bot Projects -->
-                <div class="project-card bot card-hover rounded-xl shadow-xl overflow-hidden">
-                    <div class="project-image-placeholder h-48 relative overflow-hidden">
-                        <img src="Imagens/ZenBot.png" alt="ZenBot Discord Dashboard" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-purple-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            Discord Bot
+                <!-- Center Lite Roleplay - NOVO CARTÃO -->
+                <div class="glass-card feature-card website card-enter rounded-xl overflow-hidden" style="animation-delay: 0.6s;">
+                    <div class="category-tag category-website">Website</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/Center.png" alt="Center Lite Roleplay">
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Center Lite Roleplay</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Premium SA-MP Roleplay Server Website com design moderno e funcionalidades avançadas para comunidade roleplay.
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">HTML</span>
+                            <span class="tech-badge">CSS</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">Tailwind</span>
+                        </div>
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="centerlite">
+                                <i class="fas fa-eye"></i>Ver Detalhes
+                            </button>
+                            <a href="https://quirson.github.io/Center-Lite-Roleplay/" target="_blank" class="action-btn action-btn-secondary">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-xl font-bold">ZenBot</h3>
-                            <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-full text-xs font-semibold">Discord Bot</span>
+                </div>
+
+                <!-- ZenBot -->
+                <div class="glass-card feature-card bot card-enter rounded-xl overflow-hidden" style="animation-delay: 0.7s;">
+                    <div class="category-tag category-bot">Discord Bot</div>
+                    <div class="p-6 text-center relative z-10">
+                        <div class="project-image-circle">
+                            <img src="Imagens/ZenBot.png" alt="ZenBot Discord Dashboard">
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">Bot Discord multifuncional desenvolvido para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.</p>
-                        <div class="flex gap-2">
-                            <button class="view-project flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-project="zenbot">
-                                <i class="fas fa-eye mr-2"></i>Ver Detalhes
+                        <h3 class="text-xl font-bold mb-3">ZenBot</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                            Bot Discord multifuncional desenvolvido para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.
+                        </p>
+                        <div class="flex flex-wrap justify-center mb-4">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Discord.py</span>
+                            <span class="tech-badge">SQL</span>
+                        </div>
+                        <div class="flex gap-2 justify-center">
+                            <button class="action-btn action-btn-primary view-project" data-project="zenbot">
+                                <i class="fas fa-eye"></i>Ver Detalhes
                             </button>
-                            <a href="https://zenbot4dc.web.app/" target="_blank" class="bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                            <a href="https://zenbot4dc.web.app/" target="_blank" class="action-btn action-btn-secondary">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
@@ -950,9 +1171,13 @@
         mobileNav.classList.toggle('hidden');
     });
 
-    // Project Filtering
+    // Project Filtering - ATUALIZADO para funcionar com os novos cartões
     const categoryBtns = document.querySelectorAll('.category-btn');
-    const projectCards = document.querySelectorAll('.project-card');
+
+    function updateProjectCards() {
+        // Seleciona tanto os cartões antigos quanto os novos
+        return document.querySelectorAll('.project-card, .glass-card');
+    }
 
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -966,6 +1191,8 @@
 
             // Filter projects
             const category = btn.getAttribute('data-category');
+            const projectCards = updateProjectCards();
+
             projectCards.forEach(card => {
                 if (category === 'all' || card.classList.contains(category)) {
                     card.style.display = 'block';
@@ -988,8 +1215,8 @@
     const modal = document.getElementById('projectModal');
     const modalContent = document.getElementById('modalContent');
     const closeBtn = document.querySelector('.close');
-    const viewProjectBtns = document.querySelectorAll('.view-project');
 
+    // Project Data - EXPANDIDO com o novo projeto
     const projectData = {
         beforward: {
             title: 'BeForwardApp',
@@ -1008,7 +1235,6 @@
             ]
         },
         school: {
-            // ... outros dados
             title: 'School Management',
             description: 'Uma Aplicacao Capaz de gerenciar uma Escola, Seus Professores , seus Alunos e Seus Funcionarios',
             features: ['Base Dados de Estudantes','Gestao de Alunos Por Professor / Turma','Gestao de Professores em tempo Real','Chat Em tempo Real'],
@@ -1033,7 +1259,6 @@
                 'Imagens/GestaoSamppppppppppp.png',
                 'Imagens/GestaoSampppppppp.png',
                 'Imagens/GestaoSamppppppppppp.png'
-
             ]
         },
         starlight: {
@@ -1049,7 +1274,6 @@
                 'Imagens/Site5.png',
                 'Imagens/Site6.png',
             ]
-
         },
         europa: {
             title: 'Europa',
@@ -1064,7 +1288,6 @@
                 'Imagens/Europa5.png',
                 'Imagens/Europa6.png'
             ]
-
         },
         zenbot: {
             title: 'Zenbot Discord',
@@ -1077,15 +1300,31 @@
                 'Imagens/Zen3.png',
                 'Imagens/Zen4.png'
             ]
+        },
+        // NOVO PROJETO ADICIONADO
+        centerlite: {
+            title: 'Center Lite Roleplay',
+            description: 'Premium SA-MP Roleplay Server Website com design moderno e funcionalidades avançadas para comunidade roleplay.',
+            features: ['Design Responsivo Premium', 'Sistema de Staff Avançado', 'Galeria de Imagens Interativa', 'Animações Suaves', 'Interface Moderna'],
+            tech: ['HTML', 'CSS', 'JavaScript', 'Tailwind'],
+            images: [
+                'Imagens/CenterLite1.png',
+                'Imagens/CenterLite2.png',
+                'Imagens/CenterLite3.png'
+            ]
         }
     };
 
-    viewProjectBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const project = btn.getAttribute('data-project');
-            const data = projectData[project];
+    // View Project Buttons - ATUALIZADO para funcionar com os novos cartões
+    function initializeViewProjectButtons() {
+        const viewProjectBtns = document.querySelectorAll('.view-project');
 
-            modalContent.innerHTML = `
+        viewProjectBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const project = btn.getAttribute('data-project');
+                const data = projectData[project];
+
+                modalContent.innerHTML = `
                     <h2 class="text-3xl font-bold gradient-text mb-6">${data.title}</h2>
                     <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">${data.description}</p>
 
@@ -1133,8 +1372,7 @@
                               `).join('') : '<div class="carousel-slide flex-shrink-0 w-full h-full flex items-center justify-center"><p class="text-gray-500">Imagens em breve...</p></div>'}
                            </div>
 
-                           <!-- Controles de navegação -->
-                          <button class="carousel-btn carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 dark:bg-black/90 text-gray-800 dark:text-white w-12 h-12 rounded-full shadow-lg hover:bg-white dark:hover:bg-black transition-all z-10" onclick="moveCarousel('${project}', -1)">
+                           <button class="carousel-btn carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 dark:bg-black/90 text-gray-800 dark:text-white w-12 h-12 rounded-full shadow-lg hover:bg-white dark:hover:bg-black transition-all z-10" onclick="moveCarousel('${project}', -1)">
                             <i class="fas fa-chevron-left"></i>
                           </button>
                           <button class="carousel-btn carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 dark:bg-black/90 text-gray-800 dark:text-white w-12 h-12 rounded-full shadow-lg hover:bg-white dark:hover:bg-black transition-all z-10" onclick="moveCarousel('${project}', 1)">
@@ -1142,7 +1380,6 @@
                           </button>
                         </div>
 
-                          <!-- Indicadores -->
                          <div class="carousel-indicators flex justify-center space-x-2 mt-4">
                            ${data.images ? data.images.map((_, index) => `
                              <button class="indicator w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600 hover:bg-red-500 transition-colors ${index === 0 ? 'bg-red-500' : ''}"
@@ -1151,13 +1388,15 @@
                            `).join('') : ''}
                          </div>
                     </div>
-                  </div>
                 `;
 
-            modal.style.display = 'block';
+                modal.style.display = 'block';
+                currentSlides[project] = 0; // Reset para primeiro slide
+            });
         });
-    });
+    }
 
+    // Modal close events
     closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';
     });
@@ -1168,28 +1407,27 @@
         }
     });
 
-    // Scroll animations for project cards
+    // Scroll animations - ATUALIZADO para funcionar com ambos os tipos de cartão
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+
+                // Para os novos cartões com animação de entrada
+                if (entry.target.classList.contains('card-enter')) {
+                    entry.target.style.animationPlayState = 'running';
+                }
             }
         });
     }, observerOptions);
 
-    // Observe all cards
-    document.querySelectorAll('.card-hover, .contact-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
+    // Image Modal
     function openImageModal(imgSrc) {
         const imageModal = document.createElement('div');
         imageModal.className = 'image-modal';
@@ -1197,7 +1435,7 @@
         imageModal.innerHTML = `
         <span style="position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
         <img src="${imgSrc}" alt="Imagem ampliada">
-    `;
+        `;
 
         document.body.appendChild(imageModal);
 
@@ -1205,6 +1443,8 @@
             document.body.removeChild(imageModal);
         };
     }
+
+    // Carousel Functions
     let currentSlides = {};
 
     function moveCarousel(project, direction) {
@@ -1251,7 +1491,7 @@
         });
     }
 
-    // Suporte para navegação por teclado
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (modal.style.display === 'block') {
             const currentProject = Object.keys(currentSlides)[Object.keys(currentSlides).length - 1];
@@ -1263,14 +1503,48 @@
         }
     });
 
-    // Inicializar slide atual quando modal abre
-    const originalViewProjectHandler = viewProjectBtns.forEach;
-    viewProjectBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const project = btn.getAttribute('data-project');
-            currentSlides[project] = 0; // Reset para primeiro slide
+    // Initialization - NOVO sistema de inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar botões de visualização de projetos
+        initializeViewProjectButtons();
+
+        // Observar todos os cartões (antigos e novos)
+        const allCards = document.querySelectorAll('.card-hover, .contact-card, .feature-card');
+
+        allCards.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+            // Para os novos cartões com animação especial
+            if (el.classList.contains('card-enter')) {
+                el.style.animationPlayState = 'paused';
+            }
+
+            scrollObserver.observe(el);
         });
     });
+
+    // Re-initialize quando conteúdo dinâmico é adicionado
+    function reinitializeAfterContentChange() {
+        initializeViewProjectButtons();
+
+        // Re-observar novos cartões
+        const newCards = document.querySelectorAll('.feature-card:not([data-observed])');
+        newCards.forEach(card => {
+            card.setAttribute('data-observed', 'true');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+            if (card.classList.contains('card-enter')) {
+                card.style.animationPlayState = 'paused';
+            }
+
+            scrollObserver.observe(card);
+        });
+    }
+
+    // Expor função para uso global se necessário
+    window.reinitializeAfterContentChange = reinitializeAfterContentChange;
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'964a48e2256e7390',t:'MTc1MzQzMjExNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
