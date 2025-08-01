@@ -44,6 +44,47 @@
         .floating-animation {
             animation: float 3s ease-in-out infinite;
         }
+        .tech-badge:hover {
+            background: rgba(220, 38, 38, 0.2);
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+        .action-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid #dc2626;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #dc2626 }
+        }
+
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -611,9 +652,38 @@
                 transform: translateY(0) scale(1);
             }
         }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(220, 38, 38, 0.6);
+            border-radius: 50%;
+            animation: float-particle 15s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: -3s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: -6s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: -9s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: -12s; }
+
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
     </style>
 </head>
 <body class="theme-transition bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white professional-bg">
+<!-- Adicione no início do body, depois do animated-bg -->
+<div class="particles-container fixed inset-0 pointer-events-none z-0">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
 <!-- Animated Background -->
 <div class="animated-bg">
     <div class="bg-shapes">
@@ -867,35 +937,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Europa Roleplay -->
-                <div class="glass-card feature-card website card-enter rounded-xl overflow-hidden" style="animation-delay: 0.5s;">
-                    <div class="category-tag category-website">Website</div>
-                    <div class="p-6 text-center relative z-10">
-                        <div class="project-image-circle">
-                            <img src="Imagens/EuropaShit.png" alt="Europa Roleplay Website">
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">Europa Roleplay</h3>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                            Um dos melhores servidores Samp que já joguei. Fui desenvolvedor do site com ajuda da equipe.
-                        </p>
-                        <div class="flex flex-wrap justify-center mb-4">
-                            <span class="tech-badge">HTML5</span>
-                            <span class="tech-badge">CSS3</span>
-                            <span class="tech-badge">JavaScript</span>
-                            <span class="tech-badge">PHP</span>
-                        </div>
-                        <div class="flex gap-2 justify-center">
-                            <button class="action-btn action-btn-primary view-project" data-project="europa">
-                                <i class="fas fa-eye"></i>Ver Detalhes
-                            </button>
-                            <a href="https://europa-rp.com" target="_blank" class="action-btn action-btn-secondary">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Center Lite Roleplay - NOVO CARTÃO -->
                 <div class="glass-card feature-card website card-enter rounded-xl overflow-hidden" style="animation-delay: 0.6s;">
                     <div class="category-tag category-website">Website</div>
@@ -924,28 +965,29 @@
                     </div>
                 </div>
 
-                <!-- ZenBot -->
-                <div class="glass-card feature-card bot card-enter rounded-xl overflow-hidden" style="animation-delay: 0.7s;">
-                    <div class="category-tag category-bot">Discord Bot</div>
+                <!-- La Casa De Papel -->
+                <div class="glass-card feature-card website card-enter rounded-xl overflow-hidden" style="animation-delay: 0.6s;">
+                    <div class="category-tag category-website">Website</div>
                     <div class="p-6 text-center relative z-10">
                         <div class="project-image-circle">
-                            <img src="Imagens/ZenBot.png" alt="ZenBot Discord Dashboard">
+                            <img src="Imagens/Logo.webp" alt="La Casa De Papel Website">
                         </div>
-                        <h3 class="text-xl font-bold mb-3">ZenBot</h3>
+                        <h3 class="text-xl font-bold mb-3">La Casa De Papel</h3>
                         <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                            Bot Discord multifuncional desenvolvido para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.
+                            Website temático inspirado na famosa série La Casa de Papel, com design imersivo e elementos visuais marcantes da série.
                         </p>
                         <div class="flex flex-wrap justify-center mb-4">
-                            <span class="tech-badge">Python</span>
-                            <span class="tech-badge">Discord.py</span>
-                            <span class="tech-badge">SQL</span>
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">CSS3</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">Design</span>
                         </div>
                         <div class="flex gap-2 justify-center">
-                            <button class="action-btn action-btn-primary view-project" data-project="zenbot">
-                                <i class="fas fa-eye"></i>Ver Detalhes
-                            </button>
-                            <a href="https://zenbot4dc.web.app/" target="_blank" class="action-btn action-btn-secondary">
-                                <i class="fas fa-external-link-alt"></i>
+                            <a href="https://quirson.github.io/La-Casa-De-Papel-Web/" target="_blank" class="action-btn action-btn-primary">
+                                <i class="fas fa-external-link-alt"></i>Visitar Site
+                            </a>
+                            <a href="https://github.com/Quirson" target="_blank" class="action-btn action-btn-secondary">
+                                <i class="fab fa-github"></i>
                             </a>
                         </div>
                     </div>
@@ -1273,32 +1315,6 @@
                 'Imagens/Site4.png',
                 'Imagens/Site5.png',
                 'Imagens/Site6.png',
-            ]
-        },
-        europa: {
-            title: 'Europa',
-            description: 'Site que mostra todas as funcionalidades de um servidor Roleplay onde me identifico como Walter White',
-            features: ['Uma Pagina Home ','Site Estatico','Links de Discord'],
-            tech: ['HTML5','CSS3','Javascript','PHP','MySQL'],
-            images: [
-                'Imagens/Europa1.png',
-                'Imagens/Europa2.png',
-                'Imagens/Europa3.png',
-                'Imagens/Europa4.png',
-                'Imagens/Europa5.png',
-                'Imagens/Europa6.png'
-            ]
-        },
-        zenbot: {
-            title: 'Zenbot Discord',
-            description: 'Bot Discord multifuncional desenvolvido para melhorar a experiência do servidor com automação, moderação e recursos de entretenimento.',
-            features: ['Moderacao Automatica', 'Comandos Automaticos','Gestao de Servidores'],
-            tech: ['Python','Discord.py','SQL'],
-            images: [
-                'Imagens/Zen1.png',
-                'Imagens/Zen2.png',
-                'Imagens/Zen3.png',
-                'Imagens/Zen4.png'
             ]
         },
         // NOVO PROJETO ADICIONADO
