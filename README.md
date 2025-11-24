@@ -1,6 +1,6 @@
 # Quirson Fernando Ngale – Professional Software Developer
 
-Welcome to the official website of **Quirson Fernando Ngale**. I am a seasoned Software Developer with over 20 years of professional experience, specializing in a wide array of programming languages and modern technologies including Python, Java, React, Angular, Spring Boot, and DevOps.
+Welcome to the official website of **Quirson Fernando Ngale**. I am a seasoned Software Developer with over 5 years of professional experience, specializing in a wide array of programming languages and modern technologies including Python, Java, React, Angular, Spring Boot, and DevOps.
 
 ## About Me
 
