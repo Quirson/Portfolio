@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://quirsonngale.me/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    
+    <!-- SUAS IMAGENS AQUI -->
+    <image:image>
+      <image:loc>https://quirsonngale.me/QuirsonNgale.jpg</image:loc>
+      <image:caption>Quirson Fernando Ngale - Desenvolvedor Full Stack</image:caption>
+      <image:title>Quirson Fernando Ngale</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://quirsonngale.me/QuirsonNgale.jpg</image:loc>
+      <image:caption>Quirson Fernando Ngale - Programador Profissional</image:caption>
+      <image:title>Quirson Ngale</image:title>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://quirsonngale.me/QuirsonNgale.jpg</image:loc>
+      <image:caption>Qurison Fernando - Desenvolvedor de Software</image:caption>
+      <image:title>Qurison Fernando</image:title>
+    </image:image>
+    
+    <!-- Adicione todas as suas fotos aqui seguindo o mesmo padrão -->
+    
   </url>
 </urlset>
