@@ -1,0 +1,6 @@
+plugins:
+  - jekyll-redirect-from
+
+redirect_from:
+  - /
+redirect_to: https://www.quirsonngale.dev
