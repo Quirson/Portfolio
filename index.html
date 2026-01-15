@@ -23,24 +23,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script type="application/ld+json">
-    {
-       "@context": "https://schema.org",
-       "@type": "Person",
-       "name": "Quirson Fernando Ngale",
-       "alternateName": ["Qurison Fernando", "Quirson Ngale", "Quirson Fernando"],
-       "url": "https://quirsonngale.me",
-       "image": [
-          "https://quirsonngale.me/Imagens/NgaleJunior.jpg",
-          "https://quirsonngale.me/Imagens/QuirsonNgale.jpg",
-          "https://quirsonngale.me/Imagens/QuirsonNgale.jpg"
-       ],
-       "jobTitle": "Desenvolvedor Full Stack",
-       "description": "Desenvolvedor Profissional especializado em mais de 4 linguagens de programação",
-       "sameAs": [
-          "https://mz.linkedin.com/in/quirson-fernando-ngale-97a4a3375",
-          "https://github.com/Quirson"
-       ]
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Quirson Fernando Ngale",
+            "alternateName": ["Qurison Fernando", "Quirson Ngale", "Quirson Fernando"],
+            "url": "https://quirsonngale.me",
+            "image": [
+                "https://quirsonngale.me/Imagens/NgaleJunior.jpg",
+                "https://quirsonngale.me/Imagens/QuirsonNgale.jpg",
+                "https://quirsonngale.me/Imagens/QuirsonNgale.jpg"
+            ],
+            "jobTitle": "Desenvolvedor Full Stack",
+            "description": "Desenvolvedor Profissional especializado em mais de 4 linguagens de programação",
+            "sameAs": [
+                "https://mz.linkedin.com/in/quirson-fernando-ngale-97a4a3375",
+                "https://github.com/Quirson"
+            ]
+        }
     </script>
     <script>
         tailwind.config = {
@@ -696,6 +696,229 @@
             border-radius: 50%;
             animation: float-particle 15s infinite linear;
         }
+        /* Botão do Portfólio Principal - VERSÃO MELHORADA */
+        .portfolio-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            animation: float-btn 3s ease-in-out infinite;
+        }
+
+        .btn-portfolio {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            font-weight: 800;
+            font-size: 17px;
+            text-decoration: none;
+            border-radius: 60px;
+            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.5),
+            0 5px 15px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            letter-spacing: 0.3px;
+            min-width: 220px;
+        }
+
+        /* Efeito de brilho interno */
+        .btn-portfolio::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), transparent);
+            border-radius: 60px 60px 0 0;
+        }
+
+        /* Efeito de onda ao passar o mouse */
+        .btn-portfolio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 60px;
+        }
+
+        .btn-portfolio:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.6),
+            0 10px 20px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+        }
+
+        .btn-portfolio:hover::before {
+            opacity: 1;
+        }
+
+        .btn-portfolio i {
+            font-size: 20px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+        }
+
+        .btn-portfolio:hover i {
+            transform: translateX(8px) rotate(360deg);
+            color: #ffd700;
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Badge "NOVO" - VERSÃO MELHORADA */
+        .btn-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: linear-gradient(45deg, #16a34a, #22c55e, #16a34a);
+            color: white;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 5px 12px;
+            border-radius: 20px;
+            animation: pulse-badge 2s infinite, shake-badge 3s infinite;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.5),
+            0 2px 5px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Animação de flutuação suave */
+        @keyframes float-btn {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Animação de pulso para a badge */
+        @keyframes pulse-badge {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(22, 163, 74, 0.5);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(22, 163, 74, 0.7);
+            }
+        }
+
+        /* Animação de leve balanço */
+        @keyframes shake-badge {
+            0%, 90%, 100% {
+                transform: rotate(0deg);
+            }
+            92% {
+                transform: rotate(5deg);
+            }
+            94% {
+                transform: rotate(-5deg);
+            }
+            96% {
+                transform: rotate(5deg);
+            }
+            98% {
+                transform: rotate(-5deg);
+            }
+        }
+
+        /* Efeito de clique */
+        .btn-portfolio:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Responsividade IMPROVADA */
+        @media (max-width: 768px) {
+            .portfolio-btn {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .btn-portfolio {
+                padding: 16px 28px;
+                font-size: 16px;
+                min-width: auto;
+                width: 100%;
+                max-width: 320px;
+                border-radius: 50px;
+            }
+
+            .btn-portfolio i {
+                font-size: 18px;
+            }
+
+            .btn-badge {
+                top: -5px;
+                right: -5px;
+                font-size: 10px;
+                padding: 4px 10px;
+                min-width: 55px;
+            }
+
+            /* Ajuste para telas muito pequenas */
+            @media (max-width: 400px) {
+                .portfolio-btn {
+                    bottom: 15px;
+                    right: 15px;
+                    left: 15px;
+                }
+
+                .btn-portfolio {
+                    padding: 14px 24px;
+                    font-size: 15px;
+                }
+
+                .btn-text {
+                    gap: 8px;
+                }
+            }
+        }
+
+        /* Ajuste para modo escuro */
+        .dark .btn-portfolio {
+            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.6),
+            0 5px 15px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .dark .btn-portfolio:hover {
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.8),
+            0 10px 20px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
 
         .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
         .particle:nth-child(2) { left: 30%; animation-delay: -3s; }
@@ -708,18 +931,10 @@
             10% { opacity: 1; }
             90% { opacity: 1; }
             100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
     </style>
 </head>
 <body class="theme-transition bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-white professional-bg">
 <!-- Adicione no início do body, depois do animated-bg -->
-<div class="particles-container fixed inset-0 pointer-events-none z-0">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-</div>
 <!-- Animated Background -->
 <div class="animated-bg">
     <div class="bg-shapes">
@@ -1056,7 +1271,7 @@
 
                     <div class="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm p-8 rounded-xl shadow-xl border border-gray-200 dark:border-dark-600">
                         <h3 class="text-2xl font-bold mb-4 text-primary-600">Especialização na Area da Tecnologia</h3>
-                         <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                             Como profissional de Tecnologia, domino uma ampla gama de tecnologias. Desde reparos complexos de dispositivos móveis até desenvolvimento de software avançado, sempre busco soluções inovadoras para cada desafio.
                         </p>
                         <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -1599,3 +1814,16 @@
     // Expor função para uso global se necessário
     window.reinitializeAfterContentChange = reinitializeAfterContentChange;
 </script>
+<!-- Botão Fixo do Portfólio - VERSÃO MELHORADA -->
+<div class="portfolio-btn">
+    <a href="https://www.quirsonngale.dev" target="_blank" class="btn-portfolio"
+       onclick="ga('send', 'event', 'Portfolio Button', 'click', 'Main Portfolio');">
+        <span class="btn-text">
+            <i class="fas fa-rocket"></i>
+            <span>Portfólio Completo</span>
+        </span>
+        <span class="btn-badge">🔥 NOVO</span>
+    </a>
+</div>
+</body>
+</html>
