@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 1280px;
+            height: 640px;
+            overflow: hidden;
+            background: #020408;
+            font-family: 'Syne', sans-serif;
+            position: relative;
+        }
+
+        /* Grid lines background */
+        .grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                    linear-gradient(rgba(0,255,170,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,255,170,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Glowing orbs */
+        .orb1 {
+            position: absolute;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,255,170,0.12) 0%, transparent 70%);
+            top: -150px; left: -100px;
+        }
+        .orb2 {
+            position: absolute;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100,50,255,0.15) 0%, transparent 70%);
+            bottom: -100px; right: 200px;
+        }
+        .orb3 {
+            position: absolute;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,180,255,0.10) 0%, transparent 70%);
+            top: 100px; right: -50px;
+        }
+
+        /* Scan line effect */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0,0,0,0.15) 2px,
+                    rgba(0,0,0,0.15) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* Left decorative bar */
+        .left-bar {
+            position: absolute;
+            left: 80px;
+            top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #00ffaa, #6432ff, transparent);
+        }
+
+        /* Main content */
+        .content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 100px 60px 120px;
+        }
+
+        .tag-line {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 4px;
+            color: #00ffaa;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .tag-line::before {
+            content: '';
+            display: inline-block;
+            width: 24px; height: 2px;
+            background: #00ffaa;
+        }
+
+        h1 {
+            font-size: 88px;
+            font-weight: 800;
+            line-height: 0.9;
+            color: #ffffff;
+            letter-spacing: -3px;
+            margin-bottom: 8px;
+        }
+        h1 span {
+            display: block;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.45);
+            margin-top: 20px;
+            font-weight: 400;
+            max-width: 480px;
+            line-height: 1.5;
+        }
+
+        /* Tech stack pills */
+        .stack {
+            display: flex;
+            gap: 10px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+        }
+        .pill {
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            border: 1px solid;
+        }
+        .pill.green  { color: #00ffaa; border-color: rgba(0,255,170,0.3); background: rgba(0,255,170,0.06); }
+        .pill.blue   { color: #00c8ff; border-color: rgba(0,200,255,0.3); background: rgba(0,200,255,0.06); }
+        .pill.purple { color: #a078ff; border-color: rgba(160,120,255,0.3); background: rgba(160,120,255,0.06); }
+        .pill.orange { color: #ff9850; border-color: rgba(255,152,80,0.3); background: rgba(255,152,80,0.06); }
+
+        /* Right side — avatar placeholder + stats */
+        .right-panel {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .avatar-ring {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(#00ffaa, #6432ff, #00c8ff, #00ffaa);
+            padding: 3px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 40px rgba(0,255,170,0.3);
+        }
+        .avatar-inner {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: #0d1117;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; /* Garante que a imagem não ultrapasse as bordas */
+        }
+
+        /* Estilo para a foto de perfil */
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Faz a imagem cobrir todo o espaço sem distorcer */
+            object-position: center; /* Centraliza a imagem */
+            display: block;
+        }
+
+        .stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 6px;
+            gap: 20px;
+        }
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .stat-val {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: #00ffaa;
+        }
+
+        /* Bottom bar */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #00ffaa 20%, #6432ff 60%, #00c8ff, transparent);
+        }
+
+        /* Corner decorations */
+        .corner {
+            position: absolute;
+            width: 20px; height: 20px;
+            border-color: rgba(0,255,170,0.4);
+            border-style: solid;
+        }
+        .corner.tl { top: 20px; left: 20px; border-width: 2px 0 0 2px; }
+        .corner.tr { top: 20px; right: 20px; border-width: 2px 2px 0 0; }
+        .corner.bl { bottom: 20px; left: 20px; border-width: 0 0 2px 2px; }
+        .corner.br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+
+        /* Animated pulse dot */
+        .dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #00ffaa;
+            box-shadow: 0 0 10px #00ffaa;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="grid"></div>
+<div class="orb1"></div>
+<div class="orb2"></div>
+<div class="orb3"></div>
+<div class="scanlines"></div>
+<div class="left-bar"></div>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div class="content">
+    <div class="tag-line"><span class="dot"></span> Software Developer · Mozambique</div>
+    <h1>
+        Quirson
+        <span>Fernando</span>
+    </h1>
+    <p class="subtitle">Full-Stack Developer &amp; DevOps Engineer<br>5+ years building scalable software solutions</p>
+    <div class="stack">
+        <span class="pill green">Python</span>
+        <span class="pill blue">React</span>
+        <span class="pill purple">Spring Boot</span>
+        <span class="pill orange">DevOps</span>
+        <span class="pill blue">Angular</span>
+        <span class="pill green">Java</span>
+        <span class="pill purple">CI/CD</span>
+    </div>
+</div>
+
+<div class="right-panel">
+    <div class="avatar-ring">
+        <div class="avatar-inner">
+            <!-- Substitua o src pelo caminho da sua foto -->
+            <img src="https://quirsonngale.me/Imagens/QuirsonNgale.jpg"
+                 alt="Profile Photo"
+                 class="profile-photo"
+                 onerror="this.src='https://via.placeholder.com/180x180/0d1117/00ffaa?text=ERROR'">
+        </div>
+    </div>
+    <div class="stats">
+        <div class="stat-row">
+            <span class="stat-label">Experience</span>
+            <span class="stat-val">5+ YRS</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Repos</span>
+            <span class="stat-val">30+</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Stack</span>
+            <span class="stat-val">Full-Stack</span>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-bar"></div>
+</body>
+</html>
