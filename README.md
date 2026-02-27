@@ -13,10 +13,10 @@
 
 ### **Quirson Fernando Ngale** · Software Developer · Mozambique 🇲🇿
 
-[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-quirson.dev-00ffaa?style=for-the-badge&labelColor=0d1117)](https://quirson.dev)
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-quirson.dev-00ffaa?style=for-the-badge&labelColor=0d1117)](https://quirsonngale.dev)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=0d1117)](https://www.linkedin.com/in/quirson-fernando-ngale)
 [![Email](https://img.shields.io/badge/Email-quirsonngale@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white&labelColor=0d1117)](mailto:quirsonngale@gmail.com)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Message_Me-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&labelColor=0d1117)](https://wa.me/your_number)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Message_Me-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&labelColor=0d1117)](https://wa.me/+258828721139)
 
 </div>
 
